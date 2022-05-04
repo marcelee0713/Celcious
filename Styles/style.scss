@@ -252,7 +252,7 @@ main{
     section.container-aboutus{
         @include flexalignjustifycenter();
         color:white;
-        margin: 3.125rem 0 ;
+        margin: 3.125rem 4.688rem ;
         .container{
             display: flex;
             gap: 32px;
@@ -282,5 +282,164 @@ main{
             }
         }
     }
+    @media only screen and (max-width:75em){
+        section.front-page{
+            justify-content: center;
+            align-items: center;
+            padding:0;
+        }
+        section.container-gallery{
+            .container{
+                .gallery-image{
+                    img{
+                        height: 30ch;
+                    }
+                }
+            }
+        }
+    }
+    @media only screen and (max-width:65.75em){
+        section.front-page{
+            .front-page-text{
+                font-size:1.3rem;
+            }
+            button{
+                font-size: 1.2rem;
+                padding: 0.5em 1em;
+            }
+        }
+        section.categories-page h2, section.container-brands h2,section.container-dotd h2,section.container-gallery h2{
+            font-size: 1.5rem;
+        }
+        section.categories-page,section.container-brands{
+            .container{
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        section.container-gallery{
+            .container{
+                .gallery-image{
+                    img{
+                        height: 23ch;
+                    }
+                }
+            }
+        }
+        section.container-description{
+            font-size: 0.8em;
+        }
+        section.container-aboutus{
+            .container{
+                .brand-social-links{
+                    h2{
+                        font-size: 1.8rem;
+                    }
+                    .social-links{
+                        display: flex;
+                        gap: 32px;
+                        i{
+                            font-size: 1.65rem;
+                        }
+                        
+                    }
+                }
+                .other-links{
+                    font-size: 0.8rem;
+                }
+            }
+        }
+    }
+    @media only screen and (max-width:56.25em){
+        section.container-gallery{
+            .container{
+                display: grid;
+                grid-template-columns: 1fr;
+                .gallery-image{
+                    img{
+                        height: auto;
+                    }
+                }
+            }
+        }
+    }
 }
-
+//for the navbar
+@media only screen and (max-width:48em){
+    nav{
+        width: auto;
+        .sidebar-links{
+            span{
+                display: none;
+            }
+        }
+    }
+    main{
+        margin-left: 3.625rem;
+        header{
+            h1{
+                font-size: 1.8rem;
+            }
+        }
+    }
+}
+//for mobile-phones
+@media only screen and (max-width:37.5em){
+    nav{
+        width: auto;
+        .sidebar-links{
+            i{
+                font-size: 0.65rem;
+            }
+        }
+    }
+    main{
+        margin-left: 3.231rem;
+        header{
+            h1{
+                font-size: 1.2rem;
+            }
+        }
+        section{
+            margin: 0 1rem;
+        }
+        section.front-page{
+            .front-page-text{
+                font-size:1rem;
+            }
+            button{
+                font-size: 0.9rem;
+                padding: 0.5em 1em;
+            }
+        }
+        section.categories-page h2, section.container-brands h2,section.container-dotd h2,section.container-gallery h2{
+            font-size: 1.2rem;
+        }
+        section.categories-page,section.container-brands{
+            .container{
+                grid-template-columns: 1fr;
+            }
+        }
+        section.container-dotd{
+            .container{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 16px;
+                .dotd-item{
+                    max-width: none;
+                }
+            }
+        }
+        section.container-aboutus{
+            margin: 3.125rem 1rem ;
+            .container{
+                flex-direction: column;
+                .other-links{
+                    flex-direction: row;
+                    font-size: 0.6rem;
+                }
+            }
+        }
+        
+    }
+}
