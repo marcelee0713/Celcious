@@ -78,89 +78,162 @@ main header {
 }
 main header h1 {
   font-family: "Inconsolata", monospace;
-  font-size: 3rem;
+  font-size: 5rem;
   color: #DEDEDE;
   letter-spacing: 0.4em;
+  margin-right: -0.4em;
 }
-main .dotd-container {
-  margin: 2rem 2rem;
+main .dotd-container, main .products-container {
+  margin: 3rem 2rem;
   display: flex;
   gap: 3em;
   flex-direction: column;
   align-items: center;
   color: #DEDEDE;
 }
-main .dotd-container .dotd-header-text {
+main .dotd-container .dotd-header-text, main .products-container .dotd-header-text, main .products-container .products-header-text {
   font-family: "Inconsolata", monospace;
   font-size: 2rem;
   letter-spacing: 0.4em;
   margin-right: -0.4em;
 }
-main .dotd-container .dotd-product-container {
+main .dotd-container .dotd-product-container, main .products-container .dotd-product-container {
   display: flex;
   gap: 1em;
 }
-main .dotd-container .dotd-product-container .dotd-product-item {
+main .dotd-container .dotd-product-container .dotd-product-item, main .products-container .dotd-product-container .dotd-product-item {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 0.8em;
 }
-main .dotd-container .dotd-product-container .dotd-product-item .dotd-price {
+main .dotd-container .dotd-product-container .dotd-product-item .dotd-price, main .products-container .dotd-product-container .dotd-product-item .dotd-price {
   font-size: 1.2rem;
   align-self: flex-start;
 }
-main .dotd-container .dotd-product-container .dotd-product-item .dotd-image {
+main .dotd-container .dotd-product-container .dotd-product-item .dotd-image, main .products-container .dotd-product-container .dotd-product-item .dotd-image {
   max-width: 700px;
   height: auto;
 }
-main .dotd-container .dotd-product-container .dotd-product-item .dotd-image img {
+main .dotd-container .dotd-product-container .dotd-product-item .dotd-image img, main .products-container .dotd-product-container .dotd-product-item .dotd-image img {
   box-shadow: 0 5px 5px 3px #000000;
   width: 100%;
   height: auto;
   transition: 250ms ease-in-out;
 }
-main .dotd-container .dotd-product-container .dotd-product-item .dotd-image img:hover {
+main .dotd-container .dotd-product-container .dotd-product-item .dotd-image img:hover, main .products-container .dotd-product-container .dotd-product-item .dotd-image img:hover {
   transform: scale(1.01);
 }
-main .dotd-container .dotd-product-container .dotd-product-item .dotd-name {
+main .dotd-container .dotd-product-container .dotd-product-item .dotd-name, main .products-container .dotd-product-container .dotd-product-item .dotd-name {
   font-size: 1.2rem;
 }
-main .dotd-container .dotd-product-container .dotd-product-item i {
+main .dotd-container .dotd-product-container .dotd-product-item i, main .products-container .dotd-product-container .dotd-product-item i {
   font-size: 2rem;
   cursor: pointer;
   transition: 300ms ease-in-out;
 }
-main .dotd-container .dotd-product-container .dotd-product-item i:hover {
+main .dotd-container .dotd-product-container .dotd-product-item i:hover, main .products-container .dotd-product-container .dotd-product-item i:hover {
   transform: rotate(15deg);
   color: #ffffff;
 }
-main section.container-aboutus {
-  margin-right: -0.4em;
+main .products-container .products-holder-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 3em 1em;
+}
+main .products-container .products-holder-container .products-item {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 0.8em;
+}
+main .products-container .products-holder-container .products-item .product-price {
+  font-size: 1.2rem;
+  align-self: flex-start;
+}
+main .products-container .products-holder-container .products-item .product-image {
+  max-width: 700px;
+  height: auto;
+}
+main .products-container .products-holder-container .products-item .product-image img {
+  box-shadow: 0 5px 5px 3px #000000;
+  width: 100%;
+  height: auto;
+  transition: 250ms ease-in-out;
+}
+main .products-container .products-holder-container .products-item .product-image img:hover {
+  transform: scale(1.01);
+}
+main .products-container .products-holder-container .products-item .product-name {
+  font-size: 1.2rem;
+}
+main .products-container .products-holder-container .products-item i {
+  font-size: 2rem;
+  cursor: pointer;
+  transition: 300ms ease-in-out;
+}
+main .products-container .products-holder-container .products-item i:hover {
+  transform: rotate(15deg);
+  color: #ffffff;
+}
+main .container-aboutus {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3em;
   color: #DEDEDE;
 }
-main section.container-aboutus .container {
+main .container-aboutus .socials-payment {
+  display: flex;
+  gap: 5em;
+}
+main .container-aboutus .socials-payment .brand-social-links h2 {
+  font-family: "Inconsolata", monospace;
+  letter-spacing: 0.4em;
+  margin-right: -0.4em;
+  font-size: 2rem;
+  margin: 0;
+}
+main .container-aboutus .socials-payment .brand-social-links .social-links {
   display: flex;
   gap: 32px;
-  justify-content: center;
-  align-items: center;
 }
-main section.container-aboutus .container .brand-social-links h2 {
+main .container-aboutus .socials-payment .brand-social-links .social-links i {
+  cursor: pointer;
+  font-size: 2rem;
+  transition: 250ms ease-in;
+}
+main .container-aboutus .socials-payment .brand-social-links .social-links i:hover {
+  color: #ffffff;
+  transform: rotate(360deg);
+}
+main .container-aboutus .socials-payment .payments {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+main .container-aboutus .socials-payment .payments h2 {
+  text-align: center;
   font-family: "Inconsolata", monospace;
   letter-spacing: 0.4em;
   font-size: 2rem;
   margin: 0;
 }
-main section.container-aboutus .container .brand-social-links .social-links {
+main .container-aboutus .socials-payment .payments .payment-methods {
   display: flex;
   gap: 32px;
 }
-main section.container-aboutus .container .brand-social-links .social-links i {
-  font-size: 2rem;
+main .container-aboutus .socials-payment .payments .payment-methods .payment-method-text {
+  letter-spacing: 0.4em;
+  margin-right: -0.4em;
+}
+main .container-aboutus .description {
+  text-align: center;
+}
+main .container-aboutus .copyright-and-credentials {
+  margin-bottom: 1.5em;
 }
 
 @media only screen and (max-width: 48em) {

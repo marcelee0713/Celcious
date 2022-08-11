@@ -80,13 +80,14 @@ main{
         @include flexalignjustifycenter();
         h1{
             font-family: 'Inconsolata', monospace;
-            font-size: 3rem;
+            font-size: 5rem;
             color:$color3;
             letter-spacing: 0.4em;
+            margin-right: -0.4em;
         }
     }
     .dotd-container{
-        margin: 2rem 2rem;
+        margin: 3rem 2rem;
         display: flex;
         gap: 3em;
         flex-direction: column;
@@ -139,19 +140,68 @@ main{
             }
         }
     }
-    section.container-aboutus{
-        margin-right: -0.4em;
-        @include flexalignjustifycenter();
+    .products-container{
+        @extend .dotd-container;
+        .products-header-text{
+            @extend .dotd-header-text;
+        }
+        .products-holder-container{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 3em 1em;
+            .products-item{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 0.8em;
+                .product-price{
+                    font-size: 1.2rem;
+                    align-self: flex-start;
+                }
+                .product-image{
+                    max-width: 700px;
+                    height: auto;
+                    img{
+                        box-shadow: 0 5px 5px 3px #000000;
+                        width: 100%;
+                        height:auto;
+                        transition: 250ms ease-in-out;
+                        &:hover{
+                            transform: scale(1.01);
+                        }
+                    }
+                }
+                .product-name{
+                    font-size: 1.2rem;
+                }
+                i{
+                    font-size: 2rem;
+                    cursor: pointer;
+                    transition: 300ms ease-in-out;
+                    &:hover{
+                        transform: rotate(15deg);
+                        color: #ffffff;
+                    }
+                }
+            }
+        }
+    }
+    .container-aboutus{
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3em;
         color:$color3;
-        .container{
+        .socials-payment{
             display: flex;
-            gap: 32px;
-            justify-content: center;
-            align-items: center;
+            gap: 5em;
             .brand-social-links{
                 h2{
                     font-family: 'Inconsolata', monospace;
                     letter-spacing: 0.4em;
+                    margin-right: -0.4em;
                     font-size: 2rem;
                     margin:0;
                 }
@@ -159,11 +209,43 @@ main{
                     display: flex;
                     gap: 32px;
                     i{
+                        cursor: pointer;
                         font-size: 2rem;
+                        transition: 250ms ease-in;
+                        &:hover{
+                            color:#ffffff;
+                            transform: rotate(360deg);
+                        }
                     }
                     
                 }
             }
+            .payments{
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                h2{
+                    text-align: center;
+                    font-family: 'Inconsolata', monospace;
+                    letter-spacing: 0.4em;
+                    font-size: 2rem;
+                    margin:0;
+                }
+                .payment-methods{
+                    display: flex;
+                    gap: 32px;
+                    .payment-method-text{
+                        letter-spacing: 0.4em;
+                        margin-right: -0.4em;
+                    }
+                }
+            }
+        }
+        .description{
+            text-align: center;
+        }
+        .copyright-and-credentials{
+            margin-bottom: 1.5em;
         }
     }
 }
