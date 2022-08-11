@@ -19,45 +19,62 @@ body{
     background-color: #161616;
 }
 nav{
-    font-family: 'Inter', sans-serif;
-    position: fixed;
-    background-color: #262626;
-    min-height: 100%;
-    width: 20ch;
-    color:white;
-    border-right: 2px solid $color2;
     ul{
-        padding:0;
-        margin:0;
+        font-family: 'Inter', sans-serif;
+        padding: 1.5rem;
+        margin: 0;
         display: flex;
         flex-direction: column;
-        a{
-            text-decoration: none;
-            color:inherit;
-        }
-    }
-    .sidebar-links{
-        display: flex;
-        gap: 18px;
-        padding: 1.25rem 1.25rem;
-        transition: 0.2s ease-in-out;
         align-items: center;
-        font-size: 1rem;
-        &:hover{
-            background-color: #161616;
-        }
-        i{
-            color:white;
+        position: fixed;
+        background-color: #262626;
+        min-height: 100%;
+        width: auto;
+        color: #dedede;
+        gap: 2rem;
+        li{
+            list-style-type: none;
+            position: relative;
+            a{
+                color: #dedede;
+                transition: 250ms;
+                &:hover{
+                    color: #ffffff;
+                }
+                i{
+                    font-size: 1.5rem;
+                }
+            }
+            &::before{
+                content: attr(data-tooltip);
+                position: absolute;
+                top:  -0.3rem;
+                left: 4rem;
+                @include flexalignjustifycenter();
+                color: #262626;
+                background-color: #dedede;
+                border-radius: 25px;
+                width: 100px;
+                padding: 0.5rem;
+                box-shadow: 0 2px 1.5px 1px #161616;
+                transition: all 200ms ease-in;
+                opacity: 0;
+            }
+    
+            &:hover::before{
+                left: 4.2rem;
+                opacity: 1;
+            }
         }
     }
+
 }
 main{
-    margin-left: 12.5rem;
+    margin-left: 5rem;
     display: flex;
     flex-direction: column;
     width:100%;
     header{
-        background-color: #262626;
         @include flexalignjustifycenter();
         h1{
             font-family: 'Inconsolata', monospace;
@@ -68,121 +85,6 @@ main{
     }
     section{
         margin: 0 4.688rem;
-    }
-    section.front-page{
-        margin-top: 3.125rem;
-        background-image: url(../Images/pexels-monstera-6311650.jpg);
-        background-position: center;
-        background-size: cover;
-        min-height: 60ch;
-        padding-right: 100px;
-        font-family: 'Inder', sans-serif;
-        @include flexalignjustifycenter;
-        flex-direction: column;
-        align-items: flex-end;
-        .front-page-text{
-            color:white;
-            text-align: center;
-            font-size: 1.8rem;
-            letter-spacing: 10px;
-            @include flexalignjustifycenter();
-            flex-direction:column;
-            gap: 8px;
-        }
-        button{
-            font-family: 'Inder', sans-serif;
-            font-size: 1.5rem;
-            padding: 0.5em 1em;
-            border:none;
-            background-color: $color1;
-            color:white;
-            cursor: pointer;
-            transition: 250ms ease-in-out;
-            &:hover{
-                background-color: white;
-                color:$color1;
-            }
-        }
-    }
-    section.categories-page{
-        display: flex;
-        flex-direction: column;
-        margin-top: 3.125rem;
-        h2{
-            font-family: 'Inconsolata', monospace;
-            font-size: 2rem;
-            color:white;
-            letter-spacing: 0.4em;
-            text-align: center;
-        }
-        .container{
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-gap: 0.5em;
-            a{
-                text-decoration: none;
-                color:inherit;
-            }
-            .category-item{
-                @include flexalignjustifycenter();
-                flex-direction: column;
-                gap: 1em;
-                background-color: white;
-                padding: 0.5em;
-                transition: opacity 250ms ease-in-out;
-                &:hover{
-                    opacity: 0.8;
-                }
-                .item-image{
-                    max-width: 30%;
-                    img{
-                        width: 100%;
-                    }
-                }
-                .item-name{
-                    font-family: 'Inder', sans-serif;
-                    letter-spacing: 0.4em;
-                    font-size: 0.9em;
-                }
-
-            }
-        }
-    }
-    section.container-brands{
-        display: flex;
-        flex-direction: column;
-        margin-top: 3.125rem;
-        h2{
-            font-family: 'Inconsolata', monospace;
-            font-size: 2rem;
-            color:white;
-            letter-spacing: 0.4em;
-            text-align: center;
-        }
-        .container{
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-gap: 0.5em;
-            a{
-                text-decoration: none;
-                color:inherit;
-            }
-            .brand-item{
-                @include flexalignjustifycenter();
-                flex-direction: column;
-                gap: 1em;
-                background-color: white;
-                padding: 0.5em;
-                transition: opacity 250ms ease-in-out;
-                &:hover{
-                    opacity: 0.8;
-                }
-                img{
-                    width: 30%;
-                }
-
-            }
-        }
     }
     section.container-dotd{
         display: flex;
@@ -215,40 +117,6 @@ main{
             }
         }
     }
-    section.container-gallery{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 3.125rem;
-        h2{
-            font-family: 'Inconsolata', monospace;
-            font-size: 2rem;
-            color:white;
-            letter-spacing: 0.4em;
-            text-align: center;
-        }
-        .container{
-            display:flex;
-            gap: 8px;
-            .gallery-image{
-                max-width:100%;
-                img{
-                    width:100%;
-                    height: 36.25ch;
-                }
-            }
-        }
-    }
-    section.container-description{
-        margin-top: 3.125rem;
-        color:white;
-        font-family: 'Inter', sans-serif;
-        font-weight: 300;
-        font-size: 0.9em;
-        .container{
-            text-align: center;
-        }
-    }
     section.container-aboutus{
         @include flexalignjustifycenter();
         color:white;
@@ -274,92 +142,6 @@ main{
                     
                 }
             }
-            .other-links{
-                font-family: 'Inter', sans-serif;
-                display: flex;
-                flex-direction: column;
-                gap: 8px;
-            }
-        }
-    }
-    @media only screen and (max-width:75em){
-        section.front-page{
-            justify-content: center;
-            align-items: center;
-            padding:0;
-        }
-        section.container-gallery{
-            .container{
-                .gallery-image{
-                    img{
-                        height: 30ch;
-                    }
-                }
-            }
-        }
-    }
-    @media only screen and (max-width:65.75em){
-        section.front-page{
-            .front-page-text{
-                font-size:1.3rem;
-            }
-            button{
-                font-size: 1.2rem;
-                padding: 0.5em 1em;
-            }
-        }
-        section.categories-page h2, section.container-brands h2,section.container-dotd h2,section.container-gallery h2{
-            font-size: 1.5rem;
-        }
-        section.categories-page,section.container-brands{
-            .container{
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        section.container-gallery{
-            .container{
-                .gallery-image{
-                    img{
-                        height: 23ch;
-                    }
-                }
-            }
-        }
-        section.container-description{
-            font-size: 0.8em;
-        }
-        section.container-aboutus{
-            .container{
-                .brand-social-links{
-                    h2{
-                        font-size: 1.8rem;
-                    }
-                    .social-links{
-                        display: flex;
-                        gap: 32px;
-                        i{
-                            font-size: 1.65rem;
-                        }
-                        
-                    }
-                }
-                .other-links{
-                    font-size: 0.8rem;
-                }
-            }
-        }
-    }
-    @media only screen and (max-width:56.25em){
-        section.container-gallery{
-            .container{
-                display: grid;
-                grid-template-columns: 1fr;
-                .gallery-image{
-                    img{
-                        height: auto;
-                    }
-                }
-            }
         }
     }
 }
@@ -370,14 +152,6 @@ main{
         .sidebar-links{
             span{
                 display: none;
-            }
-        }
-    }
-    main{
-        margin-left: 3.625rem;
-        header{
-            h1{
-                font-size: 1.8rem;
             }
         }
     }
@@ -392,54 +166,5 @@ main{
             }
         }
     }
-    main{
-        margin-left: 3.231rem;
-        header{
-            h1{
-                font-size: 1.2rem;
-            }
-        }
-        section{
-            margin: 0 1rem;
-        }
-        section.front-page{
-            .front-page-text{
-                font-size:1rem;
-            }
-            button{
-                font-size: 0.9rem;
-                padding: 0.5em 1em;
-            }
-        }
-        section.categories-page h2, section.container-brands h2,section.container-dotd h2,section.container-gallery h2{
-            font-size: 1.2rem;
-        }
-        section.categories-page,section.container-brands{
-            .container{
-                grid-template-columns: 1fr;
-            }
-        }
-        section.container-dotd{
-            .container{
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 16px;
-                .dotd-item{
-                    max-width: none;
-                }
-            }
-        }
-        section.container-aboutus{
-            margin: 3.125rem 1rem ;
-            .container{
-                flex-direction: column;
-                .other-links{
-                    flex-direction: row;
-                    font-size: 0.6rem;
-                }
-            }
-        }
-        
-    }
+
 }
