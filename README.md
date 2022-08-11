@@ -7,5 +7,7 @@ In this website I'm practicing Sass or SCSS, and it is really convenient and eff
 [Ashford Marx](https://www.pexels.com/@ashford-marx-1565533/ "Pexels")<br/>
 [Spencer Lee](https://www.pexels.com/@spencerlee/ "Pexels")<br/>
 [FlatIcon](https://www.flaticon.com/ "Flaticon")<br />
-## Important Notice
-**All of the information especially in the about section is not true. This is just a self-project website**
+## UPDATE
+August 11, 2022
+
+Hello, I've been gone for almost a month and my OOP Subject wants us to create an real-life application. Then, first thing comes in my mind that, "Hey I guess the Celcious website that I made long ago is a great opportunity to start an actual business or a project out of it". So why not? Anyways, I'm going to be active in GitHub again and I'm going to learn Firebase. Thank you for tuning in!
