@@ -1,5 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;800&family=Inder&family=Inter:wght@300;400&display=swap");
-* {
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@700&family=Roboto&display=swap");
+*, *::before, *::after {
   box-sizing: border-box;
 }
 
@@ -12,6 +12,7 @@ body {
   padding: 0;
   display: flex;
   background-color: #161616;
+  font-family: "Roboto", sans-serif;
 }
 
 nav ul {
@@ -77,50 +78,70 @@ main header {
 }
 main header h1 {
   font-family: "Inconsolata", monospace;
-  font-size: 2.5rem;
-  color: white;
+  font-size: 3rem;
+  color: #DEDEDE;
   letter-spacing: 0.4em;
 }
-main section {
-  margin: 0 4.688rem;
-}
-main section.container-dotd {
+main .dotd-container {
+  margin: 2rem 2rem;
   display: flex;
+  gap: 3em;
   flex-direction: column;
-  margin-top: 3.125rem;
+  align-items: center;
+  color: #DEDEDE;
 }
-main section.container-dotd h2 {
+main .dotd-container .dotd-header-text {
   font-family: "Inconsolata", monospace;
   font-size: 2rem;
-  color: white;
   letter-spacing: 0.4em;
-  text-align: center;
+  margin-right: -0.4em;
 }
-main section.container-dotd .container {
-  font-family: "Inconsolata", monospace;
-  color: white;
+main .dotd-container .dotd-product-container {
   display: flex;
-  gap: 4px;
+  gap: 1em;
 }
-main section.container-dotd .container .dotd-item {
+main .dotd-container .dotd-product-container .dotd-product-item {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  max-width: 50%;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8em;
 }
-main section.container-dotd .container .dotd-item img {
-  width: 100%;
+main .dotd-container .dotd-product-container .dotd-product-item .dotd-price {
+  font-size: 1.2rem;
+  align-self: flex-start;
+}
+main .dotd-container .dotd-product-container .dotd-product-item .dotd-image {
+  max-width: 700px;
   height: auto;
 }
-main section.container-dotd .container .dotd-item .dotd-name {
-  align-self: center;
+main .dotd-container .dotd-product-container .dotd-product-item .dotd-image img {
+  box-shadow: 0 5px 5px 3px #000000;
+  width: 100%;
+  height: auto;
+  transition: 250ms ease-in-out;
+}
+main .dotd-container .dotd-product-container .dotd-product-item .dotd-image img:hover {
+  transform: scale(1.01);
+}
+main .dotd-container .dotd-product-container .dotd-product-item .dotd-name {
+  font-size: 1.2rem;
+}
+main .dotd-container .dotd-product-container .dotd-product-item i {
+  font-size: 2rem;
+  cursor: pointer;
+  transition: 300ms ease-in-out;
+}
+main .dotd-container .dotd-product-container .dotd-product-item i:hover {
+  transform: rotate(15deg);
+  color: #ffffff;
 }
 main section.container-aboutus {
+  margin-right: -0.4em;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
-  margin: 3.125rem 4.688rem;
+  color: #DEDEDE;
 }
 main section.container-aboutus .container {
   display: flex;
