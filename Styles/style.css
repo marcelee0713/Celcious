@@ -54,6 +54,7 @@ nav ul li::before {
   color: #262626;
   background-color: #dedede;
   border-radius: 25px;
+  font-weight: 700;
   width: 100px;
   padding: 0.5rem;
   box-shadow: 0 2px 1.5px 1px #161616;
@@ -179,6 +180,7 @@ main .products-container .products-holder-container .products-item i:hover {
   color: #ffffff;
 }
 main .container-aboutus {
+  margin: 3rem 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -236,19 +238,177 @@ main .container-aboutus .copyright-and-credentials {
   margin-bottom: 1.5em;
 }
 
+@media only screen and (max-width: 60em) {
+  main header h1 {
+    font-size: 9vw;
+  }
+  main .dotd-container .dotd-header-text, main .products-container .dotd-header-text, main .products-container .products-header-text {
+    font-size: 4vw;
+  }
+}
 @media only screen and (max-width: 48em) {
   nav {
     width: auto;
   }
-  nav .sidebar-links span {
-    display: none;
+  main .dotd-container, main .products-container {
+    margin: 2rem 1rem;
+  }
+  main .dotd-container .dotd-product-container .dotd-product-item .dotd-price, main .products-container .dotd-product-container .dotd-product-item .dotd-price {
+    font-size: 1rem;
+  }
+  main .dotd-container .dotd-product-container .dotd-product-item .dotd-name, main .products-container .dotd-product-container .dotd-product-item .dotd-name {
+    font-size: 1rem;
+  }
+  main .dotd-container .dotd-product-container .dotd-product-item i, main .products-container .dotd-product-container .dotd-product-item i {
+    font-size: 1.5rem;
+  }
+  main .products-container {
+    margin: 2rem 1rem;
+  }
+  main .products-container .products-holder-container .products-item .product-price {
+    font-size: 1rem;
+  }
+  main .products-container .products-holder-container .products-item .product-name {
+    font-size: 1rem;
+  }
+  main .products-container .products-holder-container .products-item i {
+    font-size: 1.5rem;
+  }
+  main .container-aboutus {
+    margin: 2rem 1rem;
+  }
+  main .container-aboutus .socials-payment {
+    gap: 2.5em;
+  }
+  main .container-aboutus .socials-payment .brand-social-links h2 {
+    font-size: 4.2vw;
+  }
+  main .container-aboutus .socials-payment .brand-social-links .social-links {
+    justify-content: center;
+    gap: 16px;
+    margin-right: 1.4em;
+  }
+  main .container-aboutus .socials-payment .brand-social-links .social-links i {
+    font-size: 4.1vw;
+  }
+  main .container-aboutus .socials-payment .payments h2 {
+    font-size: 4.2vw;
+  }
+  main .container-aboutus .socials-payment .payments .payment-methods {
+    gap: 16px;
+  }
+  main .container-aboutus .socials-payment .payments .payment-methods .payment-method-text {
+    font-size: 2.1vw;
+  }
+  main .container-aboutus .description {
+    font-size: 0.8rem;
   }
 }
 @media only screen and (max-width: 37.5em) {
-  nav {
+  nav ul {
+    padding: 1rem;
     width: auto;
+    gap: 2rem;
   }
-  nav .sidebar-links i {
-    font-size: 0.65rem;
+  nav ul li {
+    list-style-type: none;
+    position: relative;
+  }
+  nav ul li a i {
+    font-size: 1rem;
+  }
+  nav ul li::before {
+    font-size: 0.8rem;
+    top: -0.35rem;
+    left: 2.4rem;
+    border-radius: 25px;
+    width: 80px;
+    padding: 0.3rem;
+  }
+  nav ul li:hover::before {
+    left: 2.6rem;
+    opacity: 1;
+  }
+  main {
+    margin-left: 3.25rem;
+  }
+  main .dotd-container, main .products-container {
+    margin: 1rem 0.5rem;
+    gap: 1.2em;
+  }
+  main .dotd-container .dotd-product-container, main .products-container .dotd-product-container {
+    gap: 0.5em;
+  }
+  main .dotd-container .dotd-product-container .dotd-product-item .dotd-price, main .products-container .dotd-product-container .dotd-product-item .dotd-price {
+    font-size: 0.8rem;
+  }
+  main .dotd-container .dotd-product-container .dotd-product-item .dotd-name, main .products-container .dotd-product-container .dotd-product-item .dotd-name {
+    font-size: 0.8rem;
+  }
+  main .dotd-container .dotd-product-container .dotd-product-item i, main .products-container .dotd-product-container .dotd-product-item i {
+    font-size: 1.2rem;
+  }
+  main .products-container {
+    margin: 1rem 0.5rem;
+  }
+  main .products-container .products-holder-container {
+    grid-gap: 1em 0.5em;
+  }
+  main .products-container .products-holder-container .products-item .product-price {
+    font-size: 0.8rem;
+  }
+  main .products-container .products-holder-container .products-item .product-name {
+    font-size: 0.8rem;
+  }
+  main .products-container .products-holder-container .products-item i {
+    font-size: 1.2rem;
+  }
+  main .container-aboutus {
+    margin: 1rem 0.5rem;
+    gap: 15px;
+  }
+  main .container-aboutus .socials-payment {
+    gap: 2.5em;
+  }
+  main .container-aboutus .socials-payment .brand-social-links h2 {
+    font-size: 4.2vw;
+  }
+  main .container-aboutus .socials-payment .brand-social-links .social-links {
+    justify-content: center;
+    gap: 16px;
+    margin-right: 0.4em;
+  }
+  main .container-aboutus .socials-payment .brand-social-links .social-links i {
+    font-size: 4.1vw;
+  }
+  main .container-aboutus .socials-payment .payments h2 {
+    font-size: 4.2vw;
+  }
+  main .container-aboutus .socials-payment .payments .payment-methods {
+    gap: 16px;
+  }
+  main .container-aboutus .socials-payment .payments .payment-methods .payment-method-text {
+    font-size: 2.1vw;
+  }
+  main .container-aboutus .description {
+    font-size: 0.73rem;
+  }
+  main .container-aboutus .copyright-and-credentials {
+    font-size: 0.8rem;
+    margin-bottom: 0;
+  }
+}
+@media only screen and (max-width: 23.4375em) {
+  main .container-aboutus .socials-payment {
+    gap: 1.5em;
+  }
+  main .container-aboutus .socials-payment .payments h2 {
+    font-size: 4.2vw;
+  }
+  main .container-aboutus .socials-payment .payments .payment-methods {
+    gap: 8px;
+  }
+  main .container-aboutus .socials-payment .payments .payment-methods .payment-method-text {
+    font-size: 2.1vw;
   }
 }/*# sourceMappingURL=style.css.map */

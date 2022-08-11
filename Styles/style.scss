@@ -56,6 +56,7 @@ nav{
                 color: #262626;
                 background-color: #dedede;
                 border-radius: 25px;
+                font-weight: 700;
                 width: 100px;
                 padding: 0.5rem;
                 box-shadow: 0 2px 1.5px 1px #161616;
@@ -188,7 +189,7 @@ main{
         }
     }
     .container-aboutus{
-
+        margin: 3rem 2rem;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -249,13 +250,91 @@ main{
         }
     }
 }
+@media only screen and (max-width: 60em) {
+    main{
+        header{
+            h1{
+                font-size: 9vw;
+            }   
+        }
+        .dotd-container{
+            .dotd-header-text{
+                font-size: 4vw;
+            }
+        }
+    }
+
+}
 //for the navbar
 @media only screen and (max-width:48em){
     nav{
         width: auto;
-        .sidebar-links{
-            span{
-                display: none;
+
+    }
+    main{
+        .dotd-container{
+            margin: 2rem 1rem;
+            .dotd-product-container{
+                .dotd-product-item{
+                    .dotd-price{
+                        font-size: 1rem;
+                    }
+                    .dotd-name{
+                        font-size: 1rem;
+                    }
+                    i{
+                        font-size: 1.5rem;
+                    }
+                }
+            }
+        }
+        .products-container{
+            margin: 2rem 1rem;
+            .products-holder-container{
+                .products-item{
+                    .product-price{
+                        font-size: 1rem;
+                    }
+                    .product-name{
+                        font-size: 1rem;
+                    }
+                    i{
+                        font-size: 1.5rem;
+                    }
+                }
+            }
+        }
+        .container-aboutus{
+            margin: 2rem 1rem;
+            .socials-payment{
+                gap: 2.5em;
+                .brand-social-links{
+                    h2{
+                        font-size: 4.2vw;
+                    }
+                    .social-links{
+                        justify-content: center;
+                        gap: 16px;
+                        margin-right: 1.4em;
+                        i{
+                            font-size: 4.1vw;
+                        }
+                    }
+                }
+                .payments{
+                    h2{
+                        font-size: 4.2vw;
+                    }
+                    .payment-methods{
+                        gap: 16px;
+                        .payment-method-text{
+                            font-size: 2.1vw;
+                        }
+                    }
+                }
+            }
+            .description{
+                font-size: 0.8rem;
             }
         }
     }
@@ -263,12 +342,129 @@ main{
 //for mobile-phones
 @media only screen and (max-width:37.5em){
     nav{
-        width: auto;
-        .sidebar-links{
-            i{
-                font-size: 0.65rem;
+        ul{
+            padding: 1rem;
+            width: auto;
+            gap: 2rem;
+            li{
+                list-style-type: none;
+                position: relative;
+                a{
+                    i{
+                        font-size: 1rem;
+                    }
+                }
+                &::before{
+                    font-size: 0.8rem;
+                    top:  -0.35rem;
+                    left: 2.4rem;
+                    border-radius: 25px;
+                    width: 80px;
+                    padding: 0.3rem;
+                }
+        
+                &:hover::before{
+                    left: 2.6rem;
+                    opacity: 1;
+                }
             }
         }
     }
-
+    main{
+        margin-left : 3.25rem;
+        .dotd-container{
+            margin: 1rem 0.5rem;
+            gap: 1.2em;
+            .dotd-product-container{
+                gap: 0.5em;
+                .dotd-product-item{
+                    .dotd-price{
+                        font-size: 0.8rem;
+                    }
+                    .dotd-name{
+                        font-size: 0.8rem;
+                    }
+                    i{
+                        font-size: 1.2rem;
+                    }
+                }
+            }
+        }
+        .products-container{
+            margin: 1rem 0.5rem;
+            .products-holder-container{
+                grid-gap: 1em 0.5em;
+                .products-item{
+                    .product-price{
+                        font-size: 0.8rem;
+                    }
+                    .product-name{
+                        font-size: 0.8rem;
+                    }
+                    i{
+                        font-size: 1.2rem;
+                    }
+                }
+            }
+        }
+        .container-aboutus{
+            margin: 1rem 0.5rem;
+            gap: 15px;
+            .socials-payment{
+                gap: 2.5em;
+                .brand-social-links{
+                    h2{
+                        font-size: 4.2vw;
+                    }
+                    .social-links{
+                        justify-content: center;
+                        gap: 16px;
+                        margin-right: 0.40em;
+                        i{
+                            font-size: 4.1vw;
+                        }
+                    }
+                }
+                .payments{
+                    h2{
+                        font-size: 4.2vw;
+                    }
+                    .payment-methods{
+                        gap: 16px;
+                        .payment-method-text{
+                            font-size: 2.1vw;
+                        }
+                    }
+                }
+            }
+            .description{
+                font-size: 0.73rem;
+            }
+            .copyright-and-credentials{
+                font-size: 0.8rem;
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+@media only screen and (max-width: 23.4375em){
+    main{
+        .container-aboutus{
+            .socials-payment{
+                gap: 1.5em;
+                .payments{
+                    h2{
+                        font-size: 4.2vw;
+                    }
+                    .payment-methods{
+                        gap: 8px;
+                        .payment-method-text{
+                            font-size: 2.1vw;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
 }
