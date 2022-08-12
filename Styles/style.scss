@@ -9,6 +9,8 @@ $color2: #262626; //Secondary 30%
 $color3: #DEDEDE; //Accent 10%
 *,*::before,*::after{
     box-sizing: border-box;
+    padding: 0;
+    margin: 0;
 }
 html{
     scroll-behavior: smooth;
@@ -79,6 +81,7 @@ main{
     width:100%;
     header{
         @include flexalignjustifycenter();
+        padding: 2em;
         h1{
             font-family: 'Inconsolata', monospace;
             font-size: 5rem;
