@@ -106,6 +106,7 @@ main .add-to-cart-container .cart-options .cart-options-item {
   color: #DEDEDE;
   width: 100px;
   height: 35px;
+  border: none;
   border-radius: 5px;
   cursor: pointer;
   font-weight: bold;
