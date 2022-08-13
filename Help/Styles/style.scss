@@ -186,6 +186,167 @@ main{
         }
     }
 }
+@media only screen and (max-width: 79.5em) {
+    main{
+        .help-container{
+            margin: 3rem 8rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2em;
+        }
+    }
+}
+@media only screen and (max-width: 60em) {
+    main{
+        header{
+            h1{
+                font-size: 9vw;
+            }   
+        }
+        .help-container{
+            .q-or-c-container{
+                .q-or-c-header-text{
+                    h2{
+                        font-size: 3vw;
+                    }
+                }
+            }
+            .q-and-a-container{
+                .q-and-a-header-text{
+                    h2{
+                        font-size: 3vw;
+                    }
+                }
+                .q-and-a-information{
+                    *{
+                        .question{
+                            font-size: 1.85vw;
+                        }
+                        .answer{
+                            font-size: 1.6vw;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}
+@media only screen and (max-width:48em){
+    main{
+        header{
+            padding: 1.5em;
+        }
+        .help-container{
+            margin: 1.5rem 6rem;
+            .q-or-c-container{
+                .q-or-c-header-text{
+                    h2{
+                        font-size: 1.5rem;
+                    }
+                }
+                .q-or-c-form{
+                    form{
+                        gap: 24px;
+                        .form-first-name, .form-email-address{
+                            input{
+                                font-size: 0.7rem;
+                            }
+           
+                        }
+                        .form-message{
+                            textarea{
+                                font-family: 'Roboto', sans-serif;
+                                resize: none;
+                                font-size: 0.7rem;
+                            }
+                        }
+                        .form-button{
+                            margin-top: -16px;
+                            max-width: 55px;
+                            height: 25px;
+                            input[type=submit]{
+                                font-size: 0.7rem;
+                            }
+                        }
+                    }
+                }
+            }
+            .q-and-a-container{
+                .q-and-a-header-text{
+                    h2{
+                        font-size: 1.5rem;
+                    }
+                }
+                .q-and-a-information{
+                    *{
+                        .question{
+                            font-size: 0.9rem;
+                        }
+                        .answer{
+                            font-size: 0.7rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+//for mobile-phones
+@media only screen and (max-width:37.5em){
+    nav{
+        ul{
+            padding: 1rem;
+            width: auto;
+            gap: 2rem;
+            li{
+                list-style-type: none;
+                position: relative;
+                a{
+                    i{
+                        font-size: 1rem;
+                    }
+                }
+                &::before{
+                    display: none;
+                }
+            }
+        }
+    }
+    main{
+        margin-left : 3.25rem;
+        .help-container{
+            margin: 1rem 0.5rem;
+            .q-or-c-container{
+                gap: 10px;
+                .q-or-c-header-text{
+                    h2{
+                        font-size: 5vw;
+                    }
+                }
+            }
+            .q-and-a-container{
+                gap: 10px; 
+                .q-and-a-header-text{
+                    h2{
+                        font-size: 5vw;
+                    }
+                }
+                .q-and-a-information{
+                    gap: 16px;
+                    *{
+                        .question{
+                            font-size: 1rem;
+                        }
+                        .answer{
+                            font-size: 0.8rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 // To change the default color whenever the user selects the used input before. 
 input:-webkit-autofill,
 input:-webkit-autofill:hover, 

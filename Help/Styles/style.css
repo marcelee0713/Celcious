@@ -168,6 +168,114 @@ main .help-container .q-and-a-container .q-and-a-information * .question {
   font-weight: 700;
 }
 
+@media only screen and (max-width: 79.5em) {
+  main .help-container {
+    margin: 3rem 8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+  }
+}
+@media only screen and (max-width: 60em) {
+  main header h1 {
+    font-size: 9vw;
+  }
+  main .help-container .q-or-c-container .q-or-c-header-text h2 {
+    font-size: 3vw;
+  }
+  main .help-container .q-and-a-container .q-and-a-header-text h2 {
+    font-size: 3vw;
+  }
+  main .help-container .q-and-a-container .q-and-a-information * .question {
+    font-size: 1.85vw;
+  }
+  main .help-container .q-and-a-container .q-and-a-information * .answer {
+    font-size: 1.6vw;
+  }
+}
+@media only screen and (max-width: 48em) {
+  main header {
+    padding: 1.5em;
+  }
+  main .help-container {
+    margin: 1.5rem 6rem;
+  }
+  main .help-container .q-or-c-container .q-or-c-header-text h2 {
+    font-size: 1.5rem;
+  }
+  main .help-container .q-or-c-container .q-or-c-form form {
+    gap: 24px;
+  }
+  main .help-container .q-or-c-container .q-or-c-form form .form-first-name input, main .help-container .q-or-c-container .q-or-c-form form .form-email-address input {
+    font-size: 0.7rem;
+  }
+  main .help-container .q-or-c-container .q-or-c-form form .form-message textarea {
+    font-family: "Roboto", sans-serif;
+    resize: none;
+    font-size: 0.7rem;
+  }
+  main .help-container .q-or-c-container .q-or-c-form form .form-button {
+    margin-top: -16px;
+    max-width: 55px;
+    height: 25px;
+  }
+  main .help-container .q-or-c-container .q-or-c-form form .form-button input[type=submit] {
+    font-size: 0.7rem;
+  }
+  main .help-container .q-and-a-container .q-and-a-header-text h2 {
+    font-size: 1.5rem;
+  }
+  main .help-container .q-and-a-container .q-and-a-information * .question {
+    font-size: 0.9rem;
+  }
+  main .help-container .q-and-a-container .q-and-a-information * .answer {
+    font-size: 0.7rem;
+  }
+}
+@media only screen and (max-width: 37.5em) {
+  nav ul {
+    padding: 1rem;
+    width: auto;
+    gap: 2rem;
+  }
+  nav ul li {
+    list-style-type: none;
+    position: relative;
+  }
+  nav ul li a i {
+    font-size: 1rem;
+  }
+  nav ul li::before {
+    display: none;
+  }
+  main {
+    margin-left: 3.25rem;
+  }
+  main .help-container {
+    margin: 1rem 0.5rem;
+  }
+  main .help-container .q-or-c-container {
+    gap: 10px;
+  }
+  main .help-container .q-or-c-container .q-or-c-header-text h2 {
+    font-size: 5vw;
+  }
+  main .help-container .q-and-a-container {
+    gap: 10px;
+  }
+  main .help-container .q-and-a-container .q-and-a-header-text h2 {
+    font-size: 5vw;
+  }
+  main .help-container .q-and-a-container .q-and-a-information {
+    gap: 16px;
+  }
+  main .help-container .q-and-a-container .q-and-a-information * .question {
+    font-size: 1rem;
+  }
+  main .help-container .q-and-a-container .q-and-a-information * .answer {
+    font-size: 0.8rem;
+  }
+}
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
