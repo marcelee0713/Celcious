@@ -257,6 +257,10 @@ main .checkout-container .user-address-payment-container .user-form-container in
     width: 100%;
     height: 30px;
   }
+  .after-successful-checkout .modal-content .message {
+    font-size: 6vw;
+    padding: 1.5em;
+  }
 }
 @media only screen and (max-width: 37.5em) {
   nav ul {

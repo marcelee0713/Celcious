@@ -274,6 +274,14 @@ main{
             }
         }
     }
+    .after-successful-checkout{
+        .modal-content{
+            .message{
+                font-size: 6vw;
+                padding: 1.5em;
+            }
+        }
+    }
 }
 @media only screen and (max-width:37.5em){
     nav{
