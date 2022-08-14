@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./Styles/style.css">
     <link rel="icon" href="../../Images/icon.png">
     <script src="https://kit.fontawesome.com/12ee08d42e.js" crossorigin="anonymous"></script>
+    <script src="./script.js" defer></script>
     <title>Celcious | Add-to-Cart | Checkout</title>
 </head>
 <body>
@@ -85,9 +86,17 @@
                             </div>
                         </div>
                     </div>
-                    <input type="submit" value="Check out">
+                    <input id="submit-btn" type="submit" value="Check out">
                 </form>
             </div>
         </div>
     </main>
+    <div id="show-modal" class="after-successful-checkout">
+        <div class="modal-content">
+            <div class="message">
+                <i id="close-modal" class="fa-solid fa-xmark close-style"></i>
+                Thank you for ordering <br> View your shipment on <br> <a href="#"><i class="fa-solid fa-truck"></i></a>
+            </div>
+        </div>
+    </div>
 </body>
