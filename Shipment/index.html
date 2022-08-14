@@ -5,29 +5,72 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./Styles/style.css">
-    <link rel="icon" href="../../Images/icon.png">
+    <link rel="icon" href="../Images/icon.png">
     <script src="https://kit.fontawesome.com/12ee08d42e.js" crossorigin="anonymous"></script>
     <script src="./script.js" defer></script>
-    <title>Celcious | Add-to-Cart | Checkout</title>
+    <title>Celcious | Shipments</title>
 </head>
 <body>
     <nav>
         <ul>
             <li class="nav-item" data-tooltip="Home">
-                <a href="../../index.html"><i class="fa-solid fa-house"></i></a>
+                <a href="../index.html"><i class="fa-solid fa-house"></i></a>
             </li>
             <li class="nav-item" data-tooltip="Cart">
-                <a href="../index.html"><i class="fa-solid fa-cart-shopping"></i></a>
+                <a href="../Add-to-Cart/index.html"><i class="fa-solid fa-cart-shopping"></i></a>
             </li>
             <li class="nav-item" data-tooltip="Shipments">
                 <a href="#"><i class="fa-solid fa-truck"></i></a>
             </li>
             <li class="nav-item" data-tooltip="About">
-                <a href="../../index.html#about"><i class="fa-solid fa-circle-info"></i></a>
+                <a href="../index.html#about"><i class="fa-solid fa-circle-info"></i></a>
             </li>
             <li class="nav-item" data-tooltip="Help">
-                <a href="../../Help/index.html"><i class="fa-solid fa-circle-question"></i></a>
+                <a href="../Help/index.html"><i class="fa-solid fa-circle-question"></i></a>
             </li>
         </ul>
     </nav>
+    <main>
+        <header>
+            <h1>CELCIOUS</h1>
+        </header>
+        <div class="shipments-container">
+            <div class="processing-shipments-container">
+                <div class="h2">Processing Shipments</div>
+                <div class="processing-container">
+                    <div class="image"><img src="../Images/tshirt-empty-design.png" alt="An empty design t-shirt."></div>
+                    <div class="details">
+                        <div class="product-name">Lost in Space</div>
+                        <div class="user-fullname">Juan Dela Cruz</div>
+                        <div class="user-address">#123 Farfaraway, City, Province</div>
+                        <button id="user-cancel-shipment" class="user-button">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            <div class="shipped-shipments-container">
+                <div class="h2">Shipped Shipments</div>
+                <div class="shipped-container">
+                    <div class="image"><img src="../Images/tshirt-empty-design.png" alt="An empty design t-shirt."></div>
+                    <div class="details">
+                        <div class="product-name">Lost in Space</div>
+                        <div class="user-fullname">Juan Dela Cruz</div>
+                        <div class="user-address">#123 Farfaraway, City, Province</div>
+                        <div id="shipment-status" class="user-shipment-text">Your delivery is on the way!</div>
+                    </div>
+                </div>
+            </div>
+            <div class="delivered-shipments-container">
+                <div class="h2">Delivered</div>
+                <div class="delivered-container">
+                    <div class="image"><img src="../Images/tshirt-empty-design.png" alt="An empty design t-shirt."></div>
+                    <div class="details">
+                        <div class="product-name">Lost in Space</div>
+                        <div class="user-fullname">Juan Dela Cruz</div>
+                        <div class="user-address">#123 Farfaraway, City, Province</div>
+                        <div id="shipment-delivered" class="user-delivered-text">Your shipment is now delivered!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 </body>
