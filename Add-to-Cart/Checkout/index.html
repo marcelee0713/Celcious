@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="./Styles/style.css">
     <link rel="icon" href="../../Images/icon.png">
     <script src="https://kit.fontawesome.com/12ee08d42e.js" crossorigin="anonymous"></script>
-    <title>Celcious | Home</title>
+    <title>Celcious | Add-to-Cart | Checkout</title>
 </head>
 <body>
     <nav>
@@ -30,66 +30,64 @@
         </ul>
     </nav>
     <main>
-        <div class="products-ordered-container">
-            <h2>Products Ordered</h2>
-            <div class="item-details">
-                <div class="item-image"></div>
-                <div class="item-detail1">Name</div>
-                <div class="item-detail2">Amount</div>
-                <div class="item-detail3">Price</div>
+        <div class="checkout-container">
+            <div class="products-ordered-container">
+                <h2>Products Ordered</h2>
+                <div class="product-items-container">
+                    <div class="products-items">
+                        <div class="product-items-image"><img src="../../Images/tshirt-empty-design.png" alt="An empty design t-shirt."></div>
+                        <div class="product-items-name">Lost In Space</div>
+                        <div class="product-items-amount">Amount: <span id="user-product-item-amount">1</span></div>
+                        <div class="product-items-price">₱250</div>
+                    </div>
+                    <div class="products-items">
+                        <div class="product-items-image"><img src="../../Images/tshirt-empty-design.png" alt="An empty design t-shirt."></div>
+                        <div class="product-items-name">Lost In Space</div>
+                        <div class="product-items-amount">Amount: <span id="user-product-item-amount">1</span></div>
+                        <div class="product-items-price">₱250</div>
+                    </div>
+                </div>
+                <div class="total-price-container">
+                    <div class="total-text">Total : </div>
+                    <div class="total-amount" id="total-of-products">₱500</div>
+                </div>
             </div>
-            <div class="product-items-container">
-                <div class="products-items">
-                    <div class="product-items-image"><img src="../../Images/tshirt-empty-design.png" alt="An empty design t-shirt."></div>
-                    <div class="product-items-name">Lost In Space</div>
-                    <div class="product-items-amount">1</div>
-                    <div class="product-items-price">₱250</div>
-                </div>
-                <div class="products-items">
-                    <div class="product-items-image"><img src="../../Images/tshirt-empty-design.png" alt="An empty design t-shirt."></div>
-                    <div class="product-items-name">Lost In Space</div>
-                    <div class="product-items-amount">1</div>
-                    <div class="product-items-price">₱250</div>
-                </div>
+            <div class="user-address-payment-container">
+                <form action="" id="user-form" class="user-form-container">
+                    <div class="shipping-address">
+                        <h2>Shipping Address</h2>
+                        <div class="ship-input-container">
+                            <input type="text" title="Enter your full name" id="full_name" name="full_name" placeholder="Full Name" required>
+                            <input type="tel" maxlength="11" pattern="^(09|\+639)\d{9}$" title="Use the PH Dial Code" id="phone_number" name="phone_number" placeholder="Phone Number" required>
+                        </div>
+                        <div class="ship-input-container">
+                            <input type="text" title="Enter your address" id="user_address" name="user_address" placeholder="Full Address" required>
+                            <input type="number" title="Enter your postal code" id="postal_code" name="postal_code" placeholder="Postal Code" required>
+                        </div>
+                        <div class="ship-input-container">
+                            <input type="text" title="Enter your Facebook URL or name" id="user_facebook" name="user_facebook" placeholder="Facebook URL or link" required>
+                        </div>
+                    </div>
+                    <div class="payment-method">
+                        <h2>Payment Method</h2>
+                        <div class="pay-input-container">
+                            <div class="pay-input-item">
+                                <input type="radio" id="cash_on_delivery" name="user_payment_method" value="COD" required>
+                                <label for="cash_on_delivery">COD</label>
+                            </div>
+                            <div class="pay-input-item">
+                                <input type="radio" id="meet_up" name="user_payment_method" value="meetup" required>
+                                <label for="meet_up">Meet-up</label>
+                            </div>
+                            <div class="pay-input-item">
+                                <input type="radio" id="g_cash" name="user_payment_method" value="gcash" required>
+                                <label for="g_cash">GCash</label>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="submit" value="Check out">
+                </form>
             </div>
-            <div class="total-price-container">
-                <div class="total-text">Total : </div>
-                <div class="total-amount">₱500</div>
-            </div>
-        </div>
-        <div class="user-address-payment-container">
-            <form action="" id="user-form" class="user-form-container">
-                <div class="shipping-address">
-                    <h2>Shipping Address</h2>
-                    <div class="ship-input-container">
-                        <input type="text" title="Enter your full name" id="full_name" name="full_name" placeholder="Full Name" required>
-                        <input type="tel" maxlength="11" pattern="^(09|\+639)\d{9}$" title="Use the PH Dial Code" id="phone_number" name="phone_number" placeholder="Phone Number" required>
-                    </div>
-                    <div class="ship-input-container">
-                        <input type="text" title="Enter your address" id="user_address" name="user_address" placeholder="Full Address" required>
-                        <input type="number" title="Enter your postal code" id="postal_code" name="postal_code" placeholder="Postal Code" required>
-                    </div>
-                    <div class="ship-input-container">
-                        <input type="text" title="Enter your Facebook URL or name" id="user_facebook" name="user_facebook" placeholder="Facebook URL or link" required>
-                    </div>
-                </div>
-                <div class="payment-method">
-                    <h2>Payment Method</h2>
-                    <div class="pay-input-container">
-                        <input type="radio" id="cash_on_delivery" name="user_payment_method" value="COD">
-                        <label for="cash_on_delivery">COD</label>
-                    </div>
-                    <div class="pay-input-container">
-                        <input type="radio" id="meet_up" name="user_payment_method" value="meetup">
-                        <label for="meet_up">Meet-up</label>
-                    </div>
-                    <div class="pay-input-container">
-                        <input type="radio" id="g_cash" name="user_payment_method" value="gcash">
-                        <label for="g_cash">GCash</label>
-                    </div>
-                </div>
-                <input type="submit" value="Check out">
-            </form>
         </div>
     </main>
 </body>
