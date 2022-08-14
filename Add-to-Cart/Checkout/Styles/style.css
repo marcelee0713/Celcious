@@ -183,6 +183,7 @@ main .checkout-container .user-address-payment-container .user-form-container in
   align-items: center;
   overflow: auto;
   text-align: center;
+  display: none;
   z-index: 1;
 }
 .after-successful-checkout .modal-content {

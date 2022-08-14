@@ -189,6 +189,7 @@ main{
     align-items: center;
     overflow: auto;
     text-align: center;
+    display: none;
     z-index: 1;
     .modal-content{
         background-color: $color2;
