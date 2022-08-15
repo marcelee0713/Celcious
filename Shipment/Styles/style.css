@@ -235,7 +235,7 @@ main .shipments-container .processing-shipments-container .processing-container 
     width: auto;
   }
   main header h1 {
-    font-size: 10vw;
+    font-size: 8vw;
   }
   main .shipments-container {
     margin: 1.5rem 0.5rem;
@@ -299,7 +299,7 @@ main .shipments-container .processing-shipments-container .processing-container 
     gap: 8px;
   }
   main .shipments-container .processing-shipments-container .processing-container .image, main .shipments-container .processing-shipments-container .shipped-container .image, main .shipments-container .processing-shipments-container .delivered-container .image, main .shipments-container .shipped-shipments-container .processing-container .image, main .shipments-container .shipped-shipments-container .shipped-container .image, main .shipments-container .shipped-shipments-container .delivered-container .image, main .shipments-container .delivered-shipments-container .processing-container .image, main .shipments-container .delivered-shipments-container .shipped-container .image, main .shipments-container .delivered-shipments-container .delivered-container .image {
-    max-width: 175px;
+    max-width: 125px;
   }
   main .shipments-container .processing-shipments-container .processing-container .details, main .shipments-container .processing-shipments-container .shipped-container .details, main .shipments-container .processing-shipments-container .delivered-container .details, main .shipments-container .shipped-shipments-container .processing-container .details, main .shipments-container .shipped-shipments-container .shipped-container .details, main .shipments-container .shipped-shipments-container .delivered-container .details, main .shipments-container .delivered-shipments-container .processing-container .details, main .shipments-container .delivered-shipments-container .shipped-container .details, main .shipments-container .delivered-shipments-container .delivered-container .details {
     display: flex;
