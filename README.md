@@ -11,11 +11,11 @@ Hello, I've been gone for almost a month and my OOP Subject wants us to create a
 
 ## UPDATE
 
-June 7, 2023
+June 8, 2023
 
 Hello, since I am learning NextJS, Tailwind, Prisma, and also NextAuth. I will be also using Firebase Storage for storing my user's pictures review and the Products.
 
-The reason why I am updating this and doing it again. <b>Apply</b> on what I just learned.
+The reason why I am updating this and doing it again. Is that I want to <b>apply</b> on what I just learned.
 
 I might also switch up <b>Supabase</b> after this project. This will be <b>shown</b> in my portfolio soon.
 
@@ -24,4 +24,4 @@ It's been really tough and I'm glad that I made this through and have a progress
 From:
 <b>HTML, CSS, and SCSS</b>
 
-To: <b>TypeScript, NextJS, Flutter, Firebase, and Prisma</b>
+To: <b>Android Studio, Flutter, Firebase, JavaScript, TypeScript, NextJS, Tailwind, and Prisma</b>
