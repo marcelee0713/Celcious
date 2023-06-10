@@ -10,10 +10,19 @@ module.exports = {
       colors: {
         primary: "#2B2B2B",
         secondary: "#FFFFFF",
+        accent: "#F2F2F2",
       },
 
       letterSpacing: {
         headSpacing: "0.3em",
+      },
+
+      width: {
+        logInWidth: "400px",
+      },
+
+      height: {
+        logInHeight: "600px",
       },
 
       maxWidth: {

@@ -1,8 +1,12 @@
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { prisma } from "@/db/prisma";
+import { Adapter } from "next-auth/adapters";
 
 const handler = NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
+  // adapter: PrismaAdapter(prisma), Uncomment this when you are using Google, Facebook, and Discord Providers
   providers: [
     CredentialsProvider({
       // The name to display on the sign in form (e.g. "Sign in with...")
@@ -17,7 +21,7 @@ const handler = NextAuth({
       },
       async authorize(credentials, req) {
         // Add logic here to look up the user from the credentials supplied
-        const res = await fetch(process.env.NEXTAUTH_URL + "/api/login", {
+        const res = await fetch(process.env.NEXTAUTH_URL + "/api/signin", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -42,6 +46,9 @@ const handler = NextAuth({
       },
     }),
   ],
+  pages: {
+    signIn: "/auth/signin",
+  },
 });
 
 export { handler as GET, handler as POST };

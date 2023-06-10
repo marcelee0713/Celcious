@@ -1,7 +1,6 @@
 import "./globals.css";
-import { Inter, Roboto } from "next/font/google";
+import { Roboto } from "next/font/google";
 import { Providers } from "@/components/Providers";
-import { NavBar } from "@/components/NavBar";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -21,10 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-screen max-w-full">
       <body className={`${roboto.className} h-full bg-secondary`}>
-        <Providers>
-          <NavBar />
-          <main>{children}</main>
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
