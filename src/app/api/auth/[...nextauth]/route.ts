@@ -56,15 +56,18 @@ const handler = NextAuth({
 
       return token;
     },
-    session({ session, token, trigger }) {
-      session.user.id = token.id as string;
-      session.user.image = token.picture;
-
-      if (trigger === "update") {
-        console.log("I HAVE BEEN UPDATED THIS IS SESSION CALLBACK");
-
+    async session({ session, token, trigger }) {
+      if (token) {
         session.user.id = token.id as string;
-        session.user.image = token.picture;
+        const user = await prisma.user.findUnique({
+          where: {
+            id: session.user.id,
+          },
+        });
+
+        if (user != null) {
+          session.user.image = user.image;
+        }
       }
 
       return session;
