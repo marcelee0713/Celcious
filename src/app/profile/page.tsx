@@ -18,6 +18,7 @@ export default function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [filename, setFilename] = useState<string | undefined>("");
   const id = session?.user?.id;
+  const image = session?.user?.image;
   const router = useRouter();
 
   const [pfpHolder, setPfpHolder] = useState<string | null>("");
@@ -102,6 +103,18 @@ export default function Home() {
     return;
   };
 
+  function makeid(length: number): string {
+    let result = "";
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < length) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      counter += 1;
+    }
+    return result;
+  }
+
   const uploadImage = async () => {
     const formData = new FormData();
     let myUrl = "";
@@ -109,6 +122,8 @@ export default function Home() {
     if (file) {
       formData.append("file", file);
       formData.append("upload_preset", "my-uploads");
+      formData.append("public_id", makeid(5));
+      formData.append("resource_type", "image");
 
       const data: photoUrl = await fetch(
         `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload`,
@@ -143,12 +158,8 @@ export default function Home() {
     const signature = generateSHA1(generateSignature(publicId));
     const url = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/destroy`;
 
-    console.log("Signature of the old image: " + signature);
-
     formData.append("public_id", publicId);
     formData.append("timestamp", timestamp.toString());
-
-    console.log(process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY);
 
     formData.append(
       "api_key",
@@ -171,10 +182,10 @@ export default function Home() {
   const submitData = async (data: FormData) => {
     setLoading(true);
     let photoUrl: string = "";
+    console.log(("Current user image id: " + image) as string);
     if (pfpHolder !== user.image) {
       if (user.image !== null) {
-        // const arr = extractPublicId(user.image).split("/");
-        const publicId = extractPublicId(user.image);
+        const publicId = extractPublicId(image as string);
         handleDeleteImage(publicId);
       }
       photoUrl = await uploadImage();
@@ -202,6 +213,7 @@ export default function Home() {
     });
 
     update();
+    router.refresh();
   };
 
   return (

@@ -45,6 +45,7 @@ export const NavBar = () => {
                 src={session.user.image}
                 alt={"Just me"}
                 className="rounded-full"
+                style={{ objectFit: "cover" }}
               />
             ) : (
               <FaUserCircle size={40} className="text-secondary" />
