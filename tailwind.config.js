@@ -7,6 +7,15 @@ module.exports = {
   ],
   theme: {
     extend: {
+      animation: {
+        wiggle: "wiggle 1s ease-in-out infinite",
+      },
+      keyframes: {
+        wiggle: {
+          "0%, 100%": { transform: "rotate(-5deg)" },
+          "50%": { transform: "rotate(5deg)" },
+        },
+      },
       colors: {
         primary: "#2B2B2B",
         secondary: "#FFFFFF",
@@ -17,12 +26,20 @@ module.exports = {
         headSpacing: "0.3em",
       },
 
+      margin: {
+        navPageMargin: "60px"
+      },
+
       width: {
         logInWidth: "400px",
+        profilePicWidth: "300px",
+        profileFormWidth: "400px",
       },
 
       height: {
         logInHeight: "600px",
+        profilePicHeight: "300px",
+        navPageHeight: "60px",
       },
 
       maxWidth: {

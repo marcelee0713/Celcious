@@ -2,7 +2,7 @@ import { prisma } from "@/db/prisma";
 import * as bcrypt from "bcrypt";
 
 interface RequestBody {
-  email: string;
+  username: string;
   password: string;
 }
 
@@ -11,7 +11,7 @@ export async function POST(req: Request) {
 
   const user = await prisma.user.findFirst({
     where: {
-      email: body.email,
+      email: body.username,
     },
   });
 

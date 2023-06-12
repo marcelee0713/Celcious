@@ -3,6 +3,7 @@ import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/db/prisma";
 import { Adapter } from "next-auth/adapters";
+import { UserWithoutPass } from "@/types/user";
 
 const handler = NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
@@ -16,7 +17,7 @@ const handler = NextAuth({
       // e.g. domain, username, password, 2FA token, etc.
       // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
-        username: { label: "Email", type: "text", placeholder: "jsmith" },
+        username: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
@@ -30,24 +31,47 @@ const handler = NextAuth({
             username: credentials?.username,
             password: credentials?.password,
           }),
+          cache: "no-cache",
         });
 
-        const user = await res.json();
-
+        const user: UserWithoutPass = await res.json();
         if (user) {
-          // Any object returned will be saved in `user` property of the JWT
           return user;
         } else {
-          // If you return null then an error will be displayed advising the user to check their details.
           return null;
-
-          // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
         }
       },
     }),
   ],
   pages: {
     signIn: "/auth/signin",
+  },
+  callbacks: {
+    jwt({ token, account, user }) {
+      if (account) {
+        token.accessToken = account.access_token;
+        token.id = user?.id;
+        token.picture = user.image;
+      }
+
+      return token;
+    },
+    session({ session, token, trigger }) {
+      session.user.id = token.id as string;
+      session.user.image = token.picture;
+
+      if (trigger === "update") {
+        console.log("I HAVE BEEN UPDATED THIS IS SESSION CALLBACK");
+
+        session.user.id = token.id as string;
+        session.user.image = token.picture;
+      }
+
+      return session;
+    },
+  },
+  session: {
+    strategy: "jwt",
   },
 });
 

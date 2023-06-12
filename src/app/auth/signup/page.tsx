@@ -5,9 +5,7 @@ import { ZodType, z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaEye, FaEyeSlash, FaCheckCircle } from "react-icons/fa";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 import { Inconsolata } from "next/font/google";
 
