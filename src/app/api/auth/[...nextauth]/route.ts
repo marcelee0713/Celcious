@@ -4,6 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/db/prisma";
 import { Adapter } from "next-auth/adapters";
 import { UserWithoutPass } from "@/types/user";
+import jwt from "jsonwebtoken";
 
 const handler = NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
@@ -19,6 +20,7 @@ const handler = NextAuth({
       credentials: {
         username: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
+        token: { type: "text" },
       },
       async authorize(credentials, req) {
         // Add logic here to look up the user from the credentials supplied
@@ -35,10 +37,35 @@ const handler = NextAuth({
         });
 
         const user: UserWithoutPass = await res.json();
+        if (credentials?.token !== "null") {
+          const token = credentials?.token;
+          console.log("The token: " + token);
+          try {
+            jwt.verify(token as string, process.env.NEXTAUTH_SECRET as string);
+          } catch (e) {
+            throw new Error("Email verification has been expired");
+          }
+
+          await prisma.user.update({
+            where: {
+              id: user.id,
+            },
+            data: {
+              emailVerified: new Date(),
+            },
+          });
+
+          return user;
+        }
+
+        if (user && !user.emailVerified) {
+          throw new Error("Email is not verified, please check your inbox.");
+        }
+
         if (user) {
           return user;
         } else {
-          return null;
+          throw new Error("Please check your credentials!");
         }
       },
     }),
@@ -56,7 +83,7 @@ const handler = NextAuth({
 
       return token;
     },
-    async session({ session, token, trigger }) {
+    async session({ session, token }) {
       if (token) {
         session.user.id = token.id as string;
         const user = await prisma.user.findUnique({

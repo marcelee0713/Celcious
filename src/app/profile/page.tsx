@@ -219,7 +219,7 @@ export default function Home() {
   return (
     <>
       <NavBar />
-      <main className="flex p-5 h-full -mt-navPageMargin">
+      <main className="flex pt-16 h-full -mt-navPageMargin">
         {isLoading && (
           <div className="w-full h-full flex justify-center items-center gap-5 ">
             <div className="font-bold text-2xl flex gap-2 flex-col items-center">

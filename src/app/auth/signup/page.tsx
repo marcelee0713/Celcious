@@ -8,6 +8,7 @@ import { FaEye, FaEyeSlash, FaCheckCircle } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 
 import { Inconsolata } from "next/font/google";
+import { UserWithoutPass } from "@/types/user";
 
 const inconsolata = Inconsolata({
   subsets: ["latin"],
@@ -73,17 +74,25 @@ export default function SignUpPage() {
       }),
       method: "POST",
     })
-      .then((val) => {
+      .then(async (val) => {
         setLoading(false);
         if (val.status === 400) {
           setAuthError("Some inputs already exist in the database!");
         } else if (val.status === 500) {
           setAuthError("Please try again later!");
         } else if (val.status === 200) {
+          const user: UserWithoutPass = await val.json();
           setSuccess(true);
-          setTimeout(() => {
-            router.back();
-          }, 2000);
+          await fetch("/api/send-email", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: data.email,
+              id: user.id,
+            }),
+          });
         }
       })
       .catch((e: any) => {
@@ -110,7 +119,15 @@ export default function SignUpPage() {
             <div className="flex flex-col items-center justify-center gap-2">
               <FaCheckCircle size={30} className="text-primary" />
               <div className="font-bold text-2xl">Success</div>
-              <div>Redirecting you back...</div>
+              <div>We have sent an verification to your email!</div>
+              <div
+                onClick={() => {
+                  router.back();
+                }}
+                className="bg-primary text-center text-secondary cursor-pointer p-3 rounded-md duration-100 ease-in-out hover:bg-black w-32 shadow-xl"
+              >
+                Go back
+              </div>
             </div>
           ) : (
             <form

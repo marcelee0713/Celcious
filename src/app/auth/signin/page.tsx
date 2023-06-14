@@ -6,10 +6,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 import { Inconsolata } from "next/font/google";
+import { UserWithoutPass } from "@/types/user";
 
 const inconsolata = Inconsolata({
   subsets: ["latin"],
@@ -19,8 +20,10 @@ const inconsolata = Inconsolata({
 export default function SignInPage() {
   const [authError, setAuthError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [emailsuccess, setEmailSuccess] = useState(false);
   const [visible, setVisible] = useState(false);
   const router = useRouter();
+  const params = useSearchParams();
 
   type FormData = {
     email: string;
@@ -42,23 +45,54 @@ export default function SignInPage() {
 
   const submitData = async (data: FormData) => {
     setLoading(true);
+    setEmailSuccess(false);
     setAuthError("");
+    const token = params.get("token");
     await signIn("credentials", {
       username: data.email,
       password: data.password,
+      token: token,
       redirect: false,
     })
       .then((val) => {
         if (val?.error) {
           setAuthError(val.error);
         } else if (val?.ok) {
-          router.push("/");
+          router.replace("/");
         }
         setLoading(false);
       })
       .catch((e) => {
         setAuthError(e);
       });
+  };
+
+  const sendEmail = async (data: FormData) => {
+    setLoading(true);
+    setAuthError("");
+    setEmailSuccess(false);
+    const res = await fetch("/api/send-email?email=" + data.email, {
+      method: "GET",
+    });
+
+    const user: UserWithoutPass = await res.json();
+    try {
+      await fetch("/api/send-email", {
+        method: "POST",
+        body: JSON.stringify({
+          email: user.email,
+          id: user.id,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      setLoading(false);
+      setEmailSuccess(true);
+    } catch (e: any) {
+      setAuthError(e);
+      setLoading(false);
+    }
   };
 
   return (
@@ -132,9 +166,28 @@ export default function SignInPage() {
             />
           </form>
           {authError !== "" && (
-            <div className="bg-rose-200 text-rose-600 p-5 rounded-lg shadow-sm">
-              Whoops we got an
-              <strong> error</strong>. Please check your credentials.
+            <div className="bg-rose-200 text-rose-600 p-5 rounded-lg shadow-sm flex flex-col">
+              <div>
+                Whoops we got an
+                <strong> error</strong>.
+              </div>
+              {authError}
+              {authError.includes("Email") && (
+                <div className="flex gap-1">
+                  Haven’t received them?
+                  <div
+                    onClick={handleSubmit(sendEmail)}
+                    className="hover:underline font-bold cursor-pointer"
+                  >
+                    Re-send Verification
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+          {emailsuccess && (
+            <div className="bg-green-200 text-green-600 p-5 rounded-lg shadow-sm flex flex-col">
+              <div>We have successfully sent you a new email verification</div>
             </div>
           )}
         </div>
