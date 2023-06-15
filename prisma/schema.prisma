@@ -6,24 +6,24 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -41,16 +41,108 @@ model Session {
   @@index([userId])
 }
 
+model Announcements {
+  id      String  @id @default(cuid())
+  head    String
+  content String  @db.Text
+  image   String?
+}
+
 model User {
+  id               String           @id @default(cuid())
+  name             String?          @db.VarChar(100)
+  email            String?          @unique
+  password         String
+  phoneNumber      String           @unique
+  image            String?
+  address_one      String?          @db.VarChar(150)
+  address_two      String?          @db.VarChar(150)
+  created_at       DateTime?        @default(now())
+  emailVerified    DateTime?
+  accounts         Account[]
+  sessions         Session[]
+  product_comments ProductComment[]
+  orders           OrderDetails[]
+  wishlist         Wishlist?
+  cart             Cart?
+  role             Role             @default(USER)
+}
+
+model Cart {
   id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  password      String
-  phoneNumber   String    @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
+  cart_id       String    @unique
+  user          User      @relation(fields: [cart_id], references: [id], onDelete: Cascade)
+  quantity      Int
+  product_items Product[]
+}
+
+model Wishlist {
+  id             String    @id @default(cuid())
+  wishlist_id    String    @unique
+  user           User      @relation(fields: [wishlist_id], references: [id], onDelete: Cascade)
+  product_wished Product[]
+}
+
+model Product {
+  id             String           @id @default(cuid())
+  price          Decimal
+  product_name   String
+  product_image  String
+  product_id     String           @unique
+  body           String           @db.Text
+  stock          Int
+  created_at     DateTime         @default(now())
+  average_rating Decimal
+  wishlist       Wishlist?        @relation(fields: [product_id], references: [wishlist_id], map: "map_wishlist", onDelete: Cascade)
+  cart           Cart?            @relation(fields: [product_id], references: [cart_id], map: "map_cart", onDelete: Cascade)
+  category       Categories?      @relation(fields: [product_id], references: [id], map: "map_categories", onDelete: Cascade)
+  ordered        OrderDetails?    @relation(fields: [product_id], references: [order_details_id], map: "map_order_details", onDelete: Cascade)
+  comments       ProductComment[]
+}
+
+model ProductComment {
+  id                 String    @id @default(cuid())
+  product_comment_id String    @unique
+  comment            String    @db.Text
+  created_at         DateTime  @default(now())
+  modified_at        DateTime?
+  review_image       String?
+  star_rating        Int
+  product            Product   @relation(fields: [product_comment_id], references: [product_id], map: "map_product_comment", onDelete: Cascade)
+  user_comment       User      @relation(fields: [product_comment_id], references: [id], map: "map_user_comment", onDelete: Cascade)
+}
+
+model Categories {
+  id               String    @id @default(cuid())
+  name             String
+  product_category Product[]
+}
+
+model OrderDetails {
+  id                 String    @id @default(cuid())
+  status             Status    @default(PROCESSING)
+  payment_method     String
+  order_details_id   String    @unique
+  delivery_id        String?
+  delivered_at       DateTime?
+  shipped_at         DateTime?
+  created_at         DateTime?
+  products           Product[]
+  user_order_details User      @relation(fields: [order_details_id], references: [id], map: "map_user_order_details", onDelete: Cascade)
+
+  total_price Decimal
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Status {
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  FAILED
 }
 
 model VerificationToken {
