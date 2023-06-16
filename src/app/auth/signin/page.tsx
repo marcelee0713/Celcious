@@ -9,12 +9,17 @@ import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
-import { Inconsolata } from "next/font/google";
+import { Inconsolata, Roboto } from "next/font/google";
 import { UserWithoutPass } from "@/types/user";
 
 const inconsolata = Inconsolata({
   subsets: ["latin"],
   weight: "700",
+});
+
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: "400",
 });
 
 export default function SignInPage() {
@@ -98,10 +103,20 @@ export default function SignInPage() {
   return (
     <main className="grid grid-cols-2 h-full w-full">
       <div className="flex items-center justify-center bg-primary">
-        <div
-          className={`${inconsolata.className} font-bold tracking-headSpacing text-2xl text-secondary bg-black w-full h-40 flex items-center justify-center`}
-        >
-          CELCIOUS
+        <div className="text-secondary bg-black w-full h-40 flex flex-col items-center justify-center">
+          <div className="w-fit flex flex-col gap-2 justify-center">
+            <div
+              className={`${inconsolata.className} ml-headSpacing text-center  tracking-headSpacing font-bold text-2xl`}
+            >
+              CELCIOUS
+            </div>
+
+            <hr className="border border-secondary" />
+
+            <div className={`${roboto.className} text-center font-light `}>
+              Sign in
+            </div>
+          </div>
         </div>
       </div>
 

@@ -7,6 +7,7 @@ interface RequestBody {
   email: string;
   password: string;
   phoneNumber: string;
+  address: string;
 }
 
 export async function POST(req: Request) {
@@ -18,6 +19,7 @@ export async function POST(req: Request) {
         email: body.email,
         password: await bcrypt.hash(body.password, 10),
         phoneNumber: body.phoneNumber,
+        address_one: body.address,
       },
     });
 

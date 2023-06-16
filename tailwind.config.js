@@ -27,7 +27,8 @@ module.exports = {
       },
 
       margin: {
-        navPageMargin: "60px"
+        navPageMargin: "60px",
+        headSpacing: "0.3em"
       },
 
       width: {
