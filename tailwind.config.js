@@ -28,10 +28,15 @@ module.exports = {
 
       margin: {
         navPageMargin: "60px",
-        headSpacing: "0.3em"
+        headSpacing: "0.3em",
+      },
+
+      padding: {
+        navPageHeight: "60px",
       },
 
       width: {
+        modalWidth: "600px",
         logInWidth: "400px",
         profilePicWidth: "300px",
         profileFormWidth: "400px",

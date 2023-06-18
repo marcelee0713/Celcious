@@ -5,13 +5,14 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { FaUserCircle } from "react-icons/fa";
+import { FaUserCircle, FaEdit, FaTrash } from "react-icons/fa";
 
 import { ZodType, z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { extractPublicId } from "cloudinary-build-url";
-import crypto, { publicDecrypt } from "crypto";
+import crypto from "crypto";
+import { AddressModal } from "@/components/Modal";
 
 export default function Home() {
   const { data: session, update } = useSession();
@@ -22,6 +23,14 @@ export default function Home() {
   const router = useRouter();
 
   const [pfpHolder, setPfpHolder] = useState<string | null>("");
+  const [addresses, setAddresses] = useState<{
+    address_one: string | null;
+    address_two: string | null;
+  }>({ address_one: "", address_two: "" });
+
+  const [addressMode, setAddressMode] = useState("1");
+  const [modalText, setModalText] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   const [isLoading, setLoading] = useState(false);
   const [hasError, setError] = useState(false);
@@ -32,9 +41,9 @@ export default function Home() {
     id: "",
     image: "",
     phoneNumber: "",
+    address_one: "",
+    address_two: "",
   });
-
-  const [defaultPhone, setDefaultPhone] = useState("");
 
   const phonePHRegex = new RegExp(/^(09|\+639)\d{9}$/);
 
@@ -81,12 +90,14 @@ export default function Home() {
           setValue("email", data.email);
           setValue("name", data.name);
           setValue("phoneNumber", data.phoneNumber);
+          setAddresses({
+            address_one: data.address_one,
+            address_two: data.address_two,
+          });
           setPfpHolder(data.image);
           setLoading(false);
           setError(false);
         });
-
-      setDefaultPhone(user.phoneNumber);
     } catch {
       setLoading(false);
       setError(true);
@@ -219,7 +230,7 @@ export default function Home() {
   return (
     <>
       <NavBar />
-      <main className="flex pt-16 h-full -mt-navPageMargin">
+      <main className="flex items-center justify-center pt-navPageHeight w-full h-full -mt-navPageMargin">
         {isLoading && (
           <div className="w-full h-full flex justify-center items-center gap-5 ">
             <div className="font-bold text-2xl flex gap-2 flex-col items-center">
@@ -252,115 +263,164 @@ export default function Home() {
         )}
 
         {!isLoading && !hasError && (
-          <div className="w-full h-full flex justify-center items-center gap-5 ">
-            <div className="font-bold text-2xl flex flex-col items-center">
-              {pfpHolder ? (
-                <div className="relative w-profilePicWidth h-profilePicHeight">
-                  <Image
-                    src={pfpHolder}
-                    alt={`${user.name}'s Profile Picture`}
-                    fill
-                    style={{ objectFit: "cover", borderRadius: "9999px" }}
-                  />
-                </div>
-              ) : id ? (
-                <FaUserCircle size={300} className="text-primary" />
-              ) : (
-                <div className="relative w-profilePicWidth h-profilePicHeight bg-primary rounded-full animate-pulse"></div>
-              )}
+          <div className="w-fit h-full gap-5 flex flex-col justify-center">
+            <div className="flex justify-center items-center gap-5">
+              <div className="font-bold text-2xl flex flex-col items-center">
+                {pfpHolder ? (
+                  <div className="relative w-profilePicWidth h-profilePicHeight">
+                    <Image
+                      src={pfpHolder}
+                      alt={`${user.name}'s Profile Picture`}
+                      fill
+                      style={{ objectFit: "cover", borderRadius: "9999px" }}
+                    />
+                  </div>
+                ) : id ? (
+                  <FaUserCircle size={300} className="text-primary" />
+                ) : (
+                  <div className="relative w-profilePicWidth h-profilePicHeight bg-primary rounded-full animate-pulse"></div>
+                )}
+
+                {id ? (
+                  <div>
+                    <label
+                      htmlFor="file-upload"
+                      className="font-normal cursor-pointer text-base underline"
+                    >
+                      Change Picture
+                    </label>
+                    <input
+                      id="file-upload"
+                      type="file"
+                      onChange={handleFileChange}
+                      className="hidden"
+                      accept="image/png, image/gif, image/jpeg"
+                    />
+                  </div>
+                ) : (
+                  <div className="h-5 w-24 bg-primary animate-pulse rounded-lg mt-2"></div>
+                )}
+              </div>
 
               {id ? (
-                <div>
-                  <label
-                    htmlFor="file-upload"
-                    className="font-normal cursor-pointer text-base underline"
-                  >
-                    Change Picture
-                  </label>
+                <form
+                  onSubmit={handleSubmit(submitData)}
+                  className="w-profileFormWidth flex flex-col gap-4"
+                >
+                  <div className="flex flex-col border-b border-primary">
+                    <div className="font-bold text-xl">Profile</div>
+                  </div>
+                  <div className="flex flex-col">
+                    <input
+                      type="text"
+                      defaultValue={user.name}
+                      className="outline-none focus:border-b border-primary"
+                      {...register("name")}
+                    />
+                    <span
+                      className={`text-rose-400 duration-300 opacity-0 ease-in ${
+                        errors.name && `opacity-100`
+                      }`}
+                    >
+                      {errors.name?.message}
+                    </span>
+                  </div>
+                  <div className="flex flex-col">
+                    <input
+                      type="email"
+                      defaultValue={user.email}
+                      className="outline-none focus:border-b border-primary"
+                      {...register("email")}
+                    />
+                    <span
+                      className={`text-rose-400 duration-300 opacity-0 ease-in ${
+                        errors.email && `opacity-100`
+                      }`}
+                    >
+                      {errors.email && errors.email.message}
+                    </span>
+                  </div>
+                  <div className="flex flex-col">
+                    <input
+                      type="text"
+                      defaultValue={user.phoneNumber}
+                      className="outline-none focus:border-b border-primary"
+                      {...register("phoneNumber")}
+                    />
+                    <span
+                      className={`text-rose-400 duration-300 opacity-0 ease-in ${
+                        errors.phoneNumber && `opacity-100`
+                      }`}
+                    >
+                      {errors.phoneNumber && errors.phoneNumber.message}
+                    </span>
+                  </div>
+
                   <input
-                    id="file-upload"
-                    type="file"
-                    onChange={handleFileChange}
-                    className="hidden"
-                    accept="image/png, image/gif, image/jpeg"
+                    type="submit"
+                    value={"Save"}
+                    className="text-lg px-8 py-4 bg-primary text-secondary shadow-md rounded-lg transition-transform duration-300 ease-in hover:-translate-y-2 cursor-pointer"
                   />
-                </div>
+                </form>
               ) : (
-                <div className="h-5 w-24 bg-primary animate-pulse rounded-lg mt-2"></div>
+                <div className="w-profileFormWidth flex flex-col gap-4">
+                  <div className="flex h-5 bg-primary animate-pulse rounded-lg"></div>
+                  <div className="flex h-3 w-36 bg-primary animate-pulse rounded-lg"></div>
+                  <div className="flex h-3 w-32 bg-primary animate-pulse rounded-lg"></div>
+                  <div className="flex h-3 w-28 bg-primary animate-pulse rounded-lg"></div>
+                </div>
               )}
             </div>
+            <hr className="border-primary" />
+            <div className="flex flex-col gap-2">
+              <div className="text-xl font-bold">Addresses</div>
+              <div className="flex flex-col gap-3">
+                {addresses.address_one ? (
+                  <div className="flex flex-col shadow-sm p-4 bg-accent gap-2 rounded-lg">
+                    {addresses.address_one}
+                    <div className="flex gap-3 self-end">
+                      <FaEdit className="text-primary cursor-pointer transition-transform ease-in hover:-translate-y-1" />
+                      <FaTrash className="text-primary cursor-pointer transition-transform ease-in hover:-translate-y-1" />
+                    </div>
+                  </div>
+                ) : (
+                  <div
+                    onClick={() => setShowModal(true)}
+                    className="flex flex-col text-lg text-gray-400 text-center shadow-sm p-4 bg-accent gap-2 rounded-lg cursor-pointer transition-transform ease-in hover:-translate-y-1"
+                  >
+                    + Add an address
+                  </div>
+                )}
 
-            {id ? (
-              <form
-                onSubmit={handleSubmit(submitData)}
-                className="w-profileFormWidth flex flex-col gap-4"
-              >
-                <div className="flex flex-col border-b border-primary">
-                  <div className="font-bold text-xl">Profile</div>
-                </div>
-                <div className="flex flex-col">
-                  <input
-                    type="text"
-                    defaultValue={user.name}
-                    className="outline-none focus:border-b border-primary"
-                    {...register("name")}
-                  />
-                  <span
-                    className={`text-rose-400 duration-300 opacity-0 ease-in ${
-                      errors.name && `opacity-100`
-                    }`}
+                {addresses.address_two ? (
+                  <div className="flex flex-col shadow-sm p-4 bg-accent gap-2 rounded-lg">
+                    {addresses.address_two}
+                    <div className="flex gap-3 self-end">
+                      <FaEdit className="text-primary cursor-pointer transition-transform ease-in hover:-translate-y-1" />
+                      <FaTrash className="text-primary cursor-pointer transition-transform ease-in hover:-translate-y-1" />
+                    </div>
+                  </div>
+                ) : (
+                  <div
+                    onClick={() => setShowModal(true)}
+                    className="flex flex-col text-lg text-gray-400 text-center shadow-sm p-4 bg-accent gap-2 rounded-lg cursor-pointer transition-transform ease-in hover:-translate-y-1"
                   >
-                    {errors.name?.message}
-                  </span>
-                </div>
-                <div className="flex flex-col">
-                  <input
-                    type="email"
-                    defaultValue={user.email}
-                    className="outline-none focus:border-b border-primary"
-                    {...register("email")}
-                  />
-                  <span
-                    className={`text-rose-400 duration-300 opacity-0 ease-in ${
-                      errors.email && `opacity-100`
-                    }`}
-                  >
-                    {errors.email && errors.email.message}
-                  </span>
-                </div>
-                <div className="flex flex-col">
-                  <input
-                    type="text"
-                    defaultValue={user.phoneNumber}
-                    className="outline-none focus:border-b border-primary"
-                    {...register("phoneNumber")}
-                  />
-                  <span
-                    className={`text-rose-400 duration-300 opacity-0 ease-in ${
-                      errors.phoneNumber && `opacity-100`
-                    }`}
-                  >
-                    {errors.phoneNumber && errors.phoneNumber.message}
-                  </span>
-                </div>
-
-                <input
-                  type="submit"
-                  value={"Save"}
-                  className="text-lg px-8 py-4 bg-primary text-secondary shadow-md rounded-lg transition-transform duration-300 ease-in hover:-translate-y-2 cursor-pointer"
-                />
-              </form>
-            ) : (
-              <div className="w-profileFormWidth flex flex-col gap-4">
-                <div className="flex h-5 bg-primary animate-pulse rounded-lg"></div>
-                <div className="flex h-3 w-36 bg-primary animate-pulse rounded-lg"></div>
-                <div className="flex h-3 w-32 bg-primary animate-pulse rounded-lg"></div>
-                <div className="flex h-3 w-28 bg-primary animate-pulse rounded-lg"></div>
+                    + Add another address
+                  </div>
+                )}
               </div>
-            )}
+            </div>
           </div>
         )}
       </main>
+      {showModal && (
+        <AddressModal
+          onSubmitCallBack={() => {}}
+          text={modalText}
+          mode={addressMode}
+          closeModal={setShowModal}
+        />
+      )}
     </>
   );
 }
