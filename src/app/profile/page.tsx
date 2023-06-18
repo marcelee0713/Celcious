@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { extractPublicId } from "cloudinary-build-url";
 import crypto from "crypto";
-import { AddressModal } from "@/components/Modal";
+import { AddressModal, ModalData } from "@/components/Modal";
 
 export default function Home() {
   const { data: session, update } = useSession();
@@ -385,7 +385,11 @@ export default function Home() {
                   </div>
                 ) : (
                   <div
-                    onClick={() => setShowModal(true)}
+                    onClick={() => {
+                      setShowModal(true);
+                      setModalText("Add aaddress");
+                      setAddressMode("1");
+                    }}
                     className="flex flex-col text-lg text-gray-400 text-center shadow-sm p-4 bg-accent gap-2 rounded-lg cursor-pointer transition-transform ease-in hover:-translate-y-1"
                   >
                     + Add an address
@@ -402,7 +406,11 @@ export default function Home() {
                   </div>
                 ) : (
                   <div
-                    onClick={() => setShowModal(true)}
+                    onClick={() => {
+                      setShowModal(true);
+                      setModalText("Add a second address");
+                      setAddressMode("2");
+                    }}
                     className="flex flex-col text-lg text-gray-400 text-center shadow-sm p-4 bg-accent gap-2 rounded-lg cursor-pointer transition-transform ease-in hover:-translate-y-1"
                   >
                     + Add another address
@@ -415,10 +423,17 @@ export default function Home() {
       </main>
       {showModal && (
         <AddressModal
-          onSubmitCallBack={() => {}}
           text={modalText}
           mode={addressMode}
           closeModal={setShowModal}
+          successModal={setAddresses}
+          address={{
+            region: "",
+            province: "",
+            city: "",
+            barangay: "",
+            noAndStreet: "",
+          }}
         />
       )}
     </>
