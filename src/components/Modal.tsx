@@ -23,7 +23,7 @@ type AddressType = {
     SetStateAction<{ address_one: string | null; address_two: string | null }>
   >;
   mode: string;
-  address: ModalData;
+  address: string;
 };
 
 const getAllRegions = (): string[] => {
@@ -105,6 +105,7 @@ export const AddressModal: React.FC<AddressType> = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
+  const arrCurrAddress = address.split(",");
 
   const schema: ZodType<ModalData> = z
     .object({
@@ -129,6 +130,10 @@ export const AddressModal: React.FC<AddressType> = ({
     .refine((data) => barangay.includes(data.barangay), {
       message: "This input does not exist in the Barangays",
       path: ["barangay"],
+    })
+    .refine((data) => !data.noAndStreet.includes(","), {
+      message: `Please remove "," or comma in this field`,
+      path: ["noAndStreet"],
     });
 
   const {
@@ -187,6 +192,32 @@ export const AddressModal: React.FC<AddressType> = ({
   const [queryProvince, setQueryProvince] = useState("");
   const [queryCity, setQueryCity] = useState("");
   const [queryBarangay, setQueryBarangay] = useState("");
+
+  const currAddressArr = address.split(", ");
+
+  useEffect(() => {
+    if (address !== "") {
+      setValue("region", currAddressArr[4]);
+      setValue("province", currAddressArr[3]);
+      setValue("city", currAddressArr[2]);
+      setValue("barangay", currAddressArr[1]);
+      setValue("noAndStreet", currAddressArr[0]);
+
+      setQueryRegion(currAddressArr[4]);
+      setQueryProvince(currAddressArr[3]);
+      setQueryCity(currAddressArr[2]);
+      setQueryBarangay(currAddressArr[1]);
+
+      const region = getValues("region");
+      const province = getValues("province");
+      const city = getValues("city");
+      setProvinces(getProvinceByRegion(region));
+      setCity(getCityByProvince(region, province));
+      setBarangay(getBarangayByProvince(region, province, city));
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="inset-0 absolute w-full h-full flex items-center justify-center bg-primary bg-opacity-80">
@@ -477,7 +508,7 @@ export const AddressModal: React.FC<AddressType> = ({
                 <div className="flex flex-col relative items-center group/barangay_input">
                   <input
                     type="text"
-                    className="outline-none border border-gray-400 rounded p-1 focus:border-primary w-full"
+                    className="outline-none border border-gray-400 rounded p-1 focus:border-primary w-full peer/peer_barangay"
                     {...register("barangay")}
                     name="barangay"
                     id="barangay"
@@ -502,7 +533,7 @@ export const AddressModal: React.FC<AddressType> = ({
                     <FaCaretRight size={25} />
                   </label>
 
-                  <ul className="bg-primary h-0 no-scrollbar w-full absolute top-10 rounded transition-all duration-300 ease-in-out peer-checked/barangay:h-40 group-hover/barangay_input:h-40 overflow-scroll overflow-x-hidden">
+                  <ul className="bg-primary h-0 no-scrollbar w-full absolute top-10 rounded transition-all duration-300 ease-in-out peer-checked/barangay:h-40 peer-focus-within/peer_barangay:h-40 group-hover/barangay_input:h-40 overflow-scroll overflow-x-hidden">
                     {barangay.length ? (
                       barangay.map(
                         (val, index) =>

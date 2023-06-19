@@ -28,9 +28,15 @@ export default function Home() {
     address_two: string | null;
   }>({ address_one: "", address_two: "" });
 
+  const [delCfrmOne, setDelCfrmOne] = useState(false);
+  const [delCfrmTwo, setDelCfrmTwo] = useState(false);
+  const [delOneLoading, setDelOneLoading] = useState(false);
+  const [delTwoLoading, setDelTwoLoading] = useState(false);
+
   const [addressMode, setAddressMode] = useState("1");
   const [modalText, setModalText] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [currentAddress, setCurrentAddress] = useState("");
 
   const [isLoading, setLoading] = useState(false);
   const [hasError, setError] = useState(false);
@@ -227,22 +233,78 @@ export default function Home() {
     router.refresh();
   };
 
+  const handleDeleteAddress = async () => {
+    const userId = session?.user.id;
+    if (addressMode === "1") {
+      setDelOneLoading(true);
+    } else {
+      setDelTwoLoading(true);
+    }
+
+    try {
+      await fetch("/api/address-data", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: userId,
+          mode: addressMode,
+        }),
+      });
+      if (addressMode === "1") {
+        setAddresses((prev) => {
+          return {
+            ...prev,
+            address_one: "",
+          };
+        });
+      } else {
+        setAddresses((prev) => {
+          return {
+            ...prev,
+            address_two: "",
+          };
+        });
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setDelOneLoading(false);
+      setDelTwoLoading(false);
+    }
+  };
+
   return (
     <>
       <NavBar />
       <main className="flex items-center justify-center pt-navPageHeight w-full h-full -mt-navPageMargin">
         {isLoading && (
-          <div className="w-full h-full flex justify-center items-center gap-5 ">
-            <div className="font-bold text-2xl flex gap-2 flex-col items-center">
-              <div className="relative w-profilePicWidth h-profilePicHeight bg-primary rounded-full animate-pulse"></div>
-              <div className="h-5 w-24 bg-primary animate-pulse rounded-lg"></div>
+          <div className="flex flex-col gap-5">
+            <div className="w-full h-full flex justify-center items-center gap-5 ">
+              <div className="font-bold text-2xl flex gap-2 flex-col items-center">
+                <div className="relative w-profilePicWidth h-profilePicHeight bg-primary rounded-full animate-pulse"></div>
+                <div className="h-5 w-24 bg-primary animate-pulse rounded-lg"></div>
+              </div>
+
+              <div className="w-profileFormWidth flex flex-col gap-4">
+                <div className="flex h-5 bg-primary animate-pulse rounded-lg"></div>
+                <div className="flex h-3 w-36 bg-primary animate-pulse rounded-lg"></div>
+                <div className="flex h-3 w-32 bg-primary animate-pulse rounded-lg"></div>
+                <div className="flex h-3 w-28 bg-primary animate-pulse rounded-lg"></div>
+                <div className="flex h-10 bg-primary animate-pulse rounded-lg"></div>
+              </div>
             </div>
 
-            <div className="w-profileFormWidth flex flex-col gap-4">
-              <div className="flex h-5 bg-primary animate-pulse rounded-lg"></div>
-              <div className="flex h-3 w-36 bg-primary animate-pulse rounded-lg"></div>
-              <div className="flex h-3 w-32 bg-primary animate-pulse rounded-lg"></div>
-              <div className="flex h-3 w-28 bg-primary animate-pulse rounded-lg"></div>
+            <hr className="border-primary" />
+
+            <div className="flex flex-col gap-2">
+              <div className="text-xl font-bold h-7 w-20 bg-primary animate-pulse rounded-lg shadow-sm"></div>
+              <div className="flex flex-col gap-3">
+                <div className="h-20 bg-primary animate-pulse rounded-lg shadow-sm"></div>
+
+                <div className="h-20 bg-primary animate-pulse rounded-lg shadow-sm"></div>
+              </div>
             </div>
           </div>
         )}
@@ -368,56 +430,186 @@ export default function Home() {
                   <div className="flex h-3 w-36 bg-primary animate-pulse rounded-lg"></div>
                   <div className="flex h-3 w-32 bg-primary animate-pulse rounded-lg"></div>
                   <div className="flex h-3 w-28 bg-primary animate-pulse rounded-lg"></div>
+                  <div className="flex h-10 bg-primary animate-pulse rounded-lg"></div>
                 </div>
               )}
             </div>
             <hr className="border-primary" />
-            <div className="flex flex-col gap-2">
-              <div className="text-xl font-bold">Addresses</div>
-              <div className="flex flex-col gap-3">
-                {addresses.address_one ? (
-                  <div className="flex flex-col shadow-sm p-4 bg-accent gap-2 rounded-lg">
-                    {addresses.address_one}
-                    <div className="flex gap-3 self-end">
-                      <FaEdit className="text-primary cursor-pointer transition-transform ease-in hover:-translate-y-1" />
-                      <FaTrash className="text-primary cursor-pointer transition-transform ease-in hover:-translate-y-1" />
-                    </div>
-                  </div>
-                ) : (
-                  <div
-                    onClick={() => {
-                      setShowModal(true);
-                      setModalText("Add aaddress");
-                      setAddressMode("1");
-                    }}
-                    className="flex flex-col text-lg text-gray-400 text-center shadow-sm p-4 bg-accent gap-2 rounded-lg cursor-pointer transition-transform ease-in hover:-translate-y-1"
-                  >
-                    + Add an address
-                  </div>
-                )}
 
-                {addresses.address_two ? (
-                  <div className="flex flex-col shadow-sm p-4 bg-accent gap-2 rounded-lg">
-                    {addresses.address_two}
-                    <div className="flex gap-3 self-end">
-                      <FaEdit className="text-primary cursor-pointer transition-transform ease-in hover:-translate-y-1" />
-                      <FaTrash className="text-primary cursor-pointer transition-transform ease-in hover:-translate-y-1" />
+            {id ? (
+              <div className="flex flex-col gap-2">
+                <div className="text-xl font-bold">Addresses</div>
+                <div className="flex flex-col gap-3">
+                  {addresses.address_one ? (
+                    <div className="flex flex-col shadow-sm p-4 bg-accent gap-2 rounded-lg relative">
+                      {delOneLoading && (
+                        <div className="flex items-center justify-center rounded-lg h-full w-full absolute top-0 left-0 bg-secondary p-4">
+                          <Image
+                            src={"/loading.svg"}
+                            alt="Loading..."
+                            height={30}
+                            width={30}
+                            className="animate-spin"
+                          />
+                        </div>
+                      )}
+                      {!delOneLoading && (
+                        <>
+                          {addresses.address_one}
+                          <div className="flex gap-3 self-end">
+                            <FaEdit
+                              onClick={() => {
+                                setShowModal(true);
+                                setModalText("Editing your first address");
+                                setAddressMode("1");
+                                setCurrentAddress(
+                                  addresses.address_one as string
+                                );
+                              }}
+                              className="text-primary cursor-pointer transition-transform ease-in hover:-translate-y-1"
+                            />
+                            <FaTrash
+                              onClick={() => {
+                                setDelCfrmOne(true);
+                              }}
+                              className="text-primary cursor-pointer transition-transform ease-in hover:-translate-y-1"
+                            />
+                          </div>
+                          <div
+                            className={`${
+                              delCfrmOne ? "flex" : "hidden"
+                            } flex-col items-center justify-center rounded-lg h-full w-full absolute top-0 left-0 bg-primary text-secondary`}
+                          >
+                            <div className="font-bold">
+                              Are you sure you want to delete this address?
+                            </div>
+                            <div className="flex gap-2">
+                              <div
+                                onClick={async () => {
+                                  setDelCfrmOne(false);
+                                  setAddressMode("1");
+                                  await handleDeleteAddress();
+                                }}
+                                className="hover:underline cursor-pointer"
+                              >
+                                Yes
+                              </div>
+                              <div
+                                onClick={() => setDelCfrmOne(false)}
+                                className="hover:underline cursor-pointer"
+                              >
+                                No
+                              </div>
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </div>
-                  </div>
-                ) : (
-                  <div
-                    onClick={() => {
-                      setShowModal(true);
-                      setModalText("Add a second address");
-                      setAddressMode("2");
-                    }}
-                    className="flex flex-col text-lg text-gray-400 text-center shadow-sm p-4 bg-accent gap-2 rounded-lg cursor-pointer transition-transform ease-in hover:-translate-y-1"
-                  >
-                    + Add another address
-                  </div>
-                )}
+                  ) : (
+                    <div
+                      onClick={() => {
+                        setShowModal(true);
+                        setModalText("Add an address");
+                        setAddressMode("1");
+                        setCurrentAddress("");
+                      }}
+                      className="flex flex-col text-lg text-gray-400 text-center shadow-sm p-4 bg-accent gap-2 rounded-lg cursor-pointer transition-transform ease-in hover:-translate-y-1"
+                    >
+                      + Add an address
+                    </div>
+                  )}
+
+                  {addresses.address_two ? (
+                    <div className="flex flex-col shadow-sm p-4 bg-accent gap-2 rounded-lg relative">
+                      {delTwoLoading && (
+                        <div className="flex items-center justify-center rounded-lg h-full w-full absolute top-0 left-0 bg-secondary p-4">
+                          <Image
+                            src={"/loading.svg"}
+                            alt="Loading..."
+                            height={30}
+                            width={30}
+                            className="animate-spin"
+                          />
+                        </div>
+                      )}
+                      {!delTwoLoading && (
+                        <>
+                          {addresses.address_two}
+                          <div className="flex gap-3 self-end">
+                            <FaEdit
+                              onClick={() => {
+                                setShowModal(true);
+                                setModalText("Editing your second address");
+                                setAddressMode("2");
+                                setCurrentAddress(
+                                  addresses.address_two as string
+                                );
+                              }}
+                              className="text-primary cursor-pointer transition-transform ease-in hover:-translate-y-1"
+                            />
+                            <FaTrash
+                              onClick={() => {
+                                setDelCfrmTwo(true);
+                                setAddressMode("2");
+                              }}
+                              className="text-primary cursor-pointer transition-transform ease-in hover:-translate-y-1"
+                            />
+                          </div>
+                          <div
+                            className={`${
+                              delCfrmTwo ? "flex" : "hidden"
+                            } flex-col items-center justify-center rounded-lg h-full w-full absolute top-0 left-0 bg-primary text-secondary`}
+                          >
+                            <div className="font-bold">
+                              Are you sure you want to delete this address?
+                            </div>
+                            <div className="flex gap-2">
+                              <div
+                                onClick={async () => {
+                                  setDelCfrmOne(false);
+                                  setAddressMode("2");
+                                  await handleDeleteAddress();
+                                }}
+                                className="hover:underline cursor-pointer"
+                              >
+                                Yes
+                              </div>
+                              <div
+                                onClick={() => setDelCfrmTwo(false)}
+                                className="hover:underline cursor-pointer"
+                              >
+                                No
+                              </div>
+                            </div>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  ) : (
+                    <div
+                      onClick={() => {
+                        setShowModal(true);
+                        setModalText("Add a second address");
+                        setAddressMode("2");
+                        setCurrentAddress("");
+                      }}
+                      className="flex flex-col text-lg text-gray-400 text-center shadow-sm p-4 bg-accent gap-2 rounded-lg cursor-pointer transition-transform ease-in hover:-translate-y-1"
+                    >
+                      + Add another address
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="flex flex-col gap-2">
+                <div className="text-xl font-bold h-7 w-20 bg-primary animate-pulse rounded-lg shadow-sm"></div>
+                <div className="flex flex-col gap-3">
+                  <div className="h-20 bg-primary animate-pulse rounded-lg shadow-sm"></div>
+
+                  <div className="h-20 bg-primary animate-pulse rounded-lg shadow-sm"></div>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </main>
@@ -427,13 +619,7 @@ export default function Home() {
           mode={addressMode}
           closeModal={setShowModal}
           successModal={setAddresses}
-          address={{
-            region: "",
-            province: "",
-            city: "",
-            barangay: "",
-            noAndStreet: "",
-          }}
+          address={currentAddress}
         />
       )}
     </>

@@ -156,6 +156,10 @@ export default function SignUpPage() {
     .refine((data) => barangay.includes(data.barangay), {
       message: "This input does not exist in the Barangays",
       path: ["barangay"],
+    })
+    .refine((data) => !data.noAndStreet.includes(","), {
+      message: `Please remove "," or comma in this field`,
+      path: ["noAndStreet"],
     });
 
   const {
@@ -626,7 +630,7 @@ export default function SignUpPage() {
                   <div className="flex flex-col relative items-center group/barangay_input">
                     <input
                       type="text"
-                      className="outline-none border border-gray-400 rounded p-1 focus:border-primary w-full"
+                      className="outline-none border border-gray-400 rounded p-1 focus:border-primary w-full peer/peer_barangay"
                       {...register("barangay")}
                       name="barangay"
                       id="barangay"
@@ -651,7 +655,7 @@ export default function SignUpPage() {
                       <FaCaretRight size={25} />
                     </label>
 
-                    <ul className="bg-primary h-0 no-scrollbar w-full absolute top-10 rounded transition-all duration-300 ease-in-out peer-checked/barangay:h-40 group-hover/barangay_input:h-40 overflow-scroll overflow-x-hidden">
+                    <ul className="bg-primary h-0 no-scrollbar w-full absolute top-10 rounded transition-all duration-300 ease-in-out peer-checked/barangay:h-40 peer-focus-within/peer_barangay:h-40 group-hover/barangay_input:h-40 overflow-scroll overflow-x-hidden">
                       {barangay.length ? (
                         barangay.map(
                           (val, index) =>
