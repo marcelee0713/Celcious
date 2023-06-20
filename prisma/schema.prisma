@@ -88,27 +88,28 @@ model Product {
   price          Decimal
   product_name   String
   product_image  String
-  product_id     String           @unique
   body           String           @db.Text
   stock          Int
-  created_at     DateTime         @default(now())
-  average_rating Decimal
-  wishlist       Wishlist?        @relation(fields: [product_id], references: [wishlist_id], map: "map_wishlist", onDelete: Cascade)
-  cart           Cart?            @relation(fields: [product_id], references: [cart_id], map: "map_cart", onDelete: Cascade)
-  category       Categories?      @relation(fields: [product_id], references: [id], map: "map_categories", onDelete: Cascade)
-  ordered        OrderDetails?    @relation(fields: [product_id], references: [order_details_id], map: "map_order_details", onDelete: Cascade)
+  created_at     DateTime?        @default(now())
+  average_rating Decimal?         @default(0)
+  wishlist       Wishlist?        @relation(fields: [id], references: [wishlist_id], map: "map_wishlist", onDelete: Cascade)
+  cart           Cart?            @relation(fields: [id], references: [cart_id], map: "map_cart", onDelete: Cascade)
+  category       Categories?      @relation(fields: [id], references: [id], map: "map_categories", onDelete: Cascade)
+  ordered        OrderDetails?    @relation(fields: [id], references: [order_details_id], map: "map_order_details", onDelete: Cascade)
   comments       ProductComment[]
+
+  @@index([id])
 }
 
 model ProductComment {
   id                 String    @id @default(cuid())
   product_comment_id String    @unique
   comment            String    @db.Text
-  created_at         DateTime  @default(now())
+  created_at         DateTime? @default(now())
   modified_at        DateTime?
   review_image       String?
   star_rating        Int
-  product            Product   @relation(fields: [product_comment_id], references: [product_id], map: "map_product_comment", onDelete: Cascade)
+  product            Product   @relation(fields: [product_comment_id], references: [id], map: "map_product_comment", onDelete: Cascade)
   user_comment       User      @relation(fields: [product_comment_id], references: [id], map: "map_user_comment", onDelete: Cascade)
 }
 
