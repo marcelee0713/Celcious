@@ -46,6 +46,7 @@ export const NavBar = () => {
                 alt={"Just me"}
                 className="rounded-full"
                 style={{ objectFit: "cover" }}
+                priority={true}
               />
             ) : (
               <FaUserCircle size={40} className="text-secondary" />

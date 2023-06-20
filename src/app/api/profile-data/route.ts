@@ -21,7 +21,7 @@ export async function POST(req: Request) {
     },
   });
 
-  if (user) {
+  if (user && userId.id) {
     const { password, ...userWithoutPass } = user;
     return new Response(JSON.stringify(userWithoutPass), { status: 200 });
   } else {

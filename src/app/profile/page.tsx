@@ -15,7 +15,17 @@ import crypto from "crypto";
 import { AddressModal, ModalData } from "@/components/Modal";
 
 export default function Home() {
-  const { data: session, update } = useSession();
+  const {
+    data: session,
+    update,
+    status,
+  } = useSession({
+    required: true,
+    onUnauthenticated() {
+      setLoading(false);
+      setError(true);
+    },
+  });
   const [file, setFile] = useState<File | null>(null);
   const [filename, setFilename] = useState<string | undefined>("");
   const id = session?.user?.id;
@@ -79,7 +89,6 @@ export default function Home() {
   useEffect(() => {
     setLoading(true);
     try {
-      if (!id) throw new Error("Error");
       fetch("/api/profile-data", {
         method: "POST",
         headers: {
@@ -90,7 +99,13 @@ export default function Home() {
         }),
         cache: "no-cache",
       })
-        .then((res) => res.json())
+        .then((res) => {
+          if (res.status === 200) {
+            return res.json();
+          } else {
+            throw new Error("Error");
+          }
+        })
         .then((data: UserWithoutPass) => {
           setUser(data);
           setValue("email", data.email);
@@ -103,6 +118,9 @@ export default function Home() {
           setPfpHolder(data.image);
           setLoading(false);
           setError(false);
+        })
+        .catch((e) => {
+          console.log("Error seems like you aren't logged in yet");
         });
     } catch {
       setLoading(false);
@@ -335,6 +353,7 @@ export default function Home() {
                       alt={`${user.name}'s Profile Picture`}
                       fill
                       style={{ objectFit: "cover", borderRadius: "9999px" }}
+                      priority={true}
                     />
                   </div>
                 ) : id ? (
