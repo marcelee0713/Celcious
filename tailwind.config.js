@@ -40,16 +40,22 @@ module.exports = {
         logInWidth: "400px",
         profilePicWidth: "300px",
         profileFormWidth: "400px",
+        productBoxWidth: "300px",
       },
 
       height: {
         logInHeight: "600px",
         profilePicHeight: "300px",
         navPageHeight: "60px",
+        productBoxHeight: "500px",
       },
 
       maxWidth: {
         picMax: "40px",
+      },
+
+      gridTemplateColumns: {
+        myGridTemplate: "repeat(auto-fit, minmax(300px, 300px))",
       },
     },
   },
