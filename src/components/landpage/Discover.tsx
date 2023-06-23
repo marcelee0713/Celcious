@@ -7,6 +7,8 @@ const roboto = Roboto({
   weight: "700",
 });
 
+export const revalidate = 0;
+
 export const DiscoverSection = async () => {
   const productsArray = await prisma.product.findMany();
   return (

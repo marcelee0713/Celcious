@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <>
       <NavBar />
-      <main className="w-full px-5 py-2">
+      <main className="w-full p-5">
         <DiscoverSection />
       </main>
     </>

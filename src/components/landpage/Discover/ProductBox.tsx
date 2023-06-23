@@ -37,10 +37,7 @@ export const ProductBox: React.FC<ProductProps> = ({
         <div className={`${robotoLight.className}`}>Stock: {stock}</div>
       </div>
       <Link
-        href={{
-          pathname: "/",
-          query: { product_id: id },
-        }}
+        href={`/products/${id}`}
         className="flex flex-col h-productBoxHeight w-productBoxWidth border border-primary rounded-lg shadow-lg transition-transform hover:-translate-y-1"
       >
         <div className="relative flex-1">

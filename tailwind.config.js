@@ -41,6 +41,7 @@ module.exports = {
         profilePicWidth: "300px",
         profileFormWidth: "400px",
         productBoxWidth: "300px",
+        viewProductBoxWidth: "500px",
       },
 
       height: {
