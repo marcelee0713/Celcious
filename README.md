@@ -25,3 +25,13 @@ From:
 <b>HTML, CSS, and SCSS</b>
 
 To: <b>Android Studio, Flutter, Firebase, JavaScript, TypeScript, NextJS, NextAuth, Tailwind, and Prisma</b>
+
+## UPDATE
+
+June 24, 2023
+
+Progress maybe slow but I am trying to do my best, I learned a lot especially this SQL or Prisma, especially about <b>connecting Relationships</b>, <b>Next Auth Callback Sessions</b>, <b>Email Verification by using Nodemailer and JWT Token</b>, and also the difference between the server and client components.
+
+I also struggle sometimes with keeping up. But I don't want to be comfortable, and I will never stop learning.
+
+Thank you, for this challenging journey.
