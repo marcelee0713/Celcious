@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import {
   FaShoppingCart,
   FaBell,
@@ -51,7 +51,7 @@ export const NavBar = () => {
             ) : (
               <FaUserCircle size={40} className="text-secondary" />
             )}
-            <div className="flex flex-col invisible group-hover/holder:visible absolute w-36 bg-primary right-0 top-14 duration-500 rounded">
+            <div className="flex flex-col invisible group-hover/holder:visible absolute w-36 bg-primary right-0 top-14 duration-500 rounded z-10">
               <div
                 onClick={() => router.push("/profile")}
                 className="flex gap-2 cursor-pointer p-4 border-b border-secondary hover:bg-black hover:rounded-t-lg"
@@ -59,13 +59,13 @@ export const NavBar = () => {
                 <FaUserAlt size={20} />
                 <div className="flex-1">Profile</div>
               </div>
-              <div
-                onClick={() => {}}
+              <Link
+                href={`/cart/${session.user.id}`}
                 className="flex gap-2 items-center cursor-pointer p-4 border-b border-secondary hover:bg-black"
               >
                 <FaShoppingCart size={20} />
                 <div className="flex-1">Cart</div>
-              </div>
+              </Link>
               <div
                 onClick={() => {
                   signOut({
@@ -80,8 +80,6 @@ export const NavBar = () => {
               </div>
             </div>
           </div>
-
-          {/* TODO Soon: For the src of Image we have to get the url of the user's Profile Picture */}
         </div>
       ) : (
         <div className="cursor-pointer" onClick={() => signIn()}>

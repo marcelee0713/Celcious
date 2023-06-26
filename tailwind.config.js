@@ -42,6 +42,7 @@ module.exports = {
         profileFormWidth: "400px",
         productBoxWidth: "300px",
         viewProductBoxWidth: "500px",
+        cartItemPicWidth: "200px",
       },
 
       height: {
@@ -49,6 +50,7 @@ module.exports = {
         profilePicHeight: "300px",
         navPageHeight: "60px",
         productBoxHeight: "500px",
+        cartItemPicHeight: "200px",
       },
 
       maxWidth: {
