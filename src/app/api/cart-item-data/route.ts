@@ -1,5 +1,7 @@
+import { CartItemType } from "@/app/cart/[id]/page";
 import { prisma } from "@/db/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
+import { NextResponse } from "next/server";
 
 type QuantityBody = {
   mode: string;
@@ -14,6 +16,61 @@ export type CartPUTResponse = {
   stock: number;
   quantity: number;
 };
+
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const id = searchParams.get("id");
+
+  if (!id) {
+    return new Response("Get Method Error, NO ID", {
+      status: 500,
+    });
+  }
+
+  try {
+    const cart = await prisma.cart.findUnique({
+      where: {
+        cart_id: id,
+      },
+    });
+
+    const cartRef = await prisma.cartItem.findMany({
+      where: {
+        cartId: cart?.id,
+      },
+    });
+
+    const products = await prisma.product.findMany();
+
+    const cartItems: CartItemType[] = [];
+
+    products.forEach((productVal, index) => {
+      cartRef.forEach((cart) => {
+        if (products[index].id === cart.productId) {
+          cartItems.push({
+            image: productVal.product_image,
+            cart_item_id: cart.id,
+            product_id: productVal.id,
+            product_name: productVal.product_name,
+            product_price: productVal.price.toNumber(),
+            quantity: cart.quantity,
+            stock: productVal.stock,
+          });
+        }
+      });
+    });
+
+    return NextResponse.json(cartItems);
+  } catch (e) {
+    if (e instanceof PrismaClientKnownRequestError) {
+      return new Response(
+        "GET Method Error in cart-item-data following error: " + e.message,
+        { status: 400 }
+      );
+    }
+    return new Response("GET Method Error in cart-item-data", { status: 500 });
+  }
+}
 
 export async function PUT(req: Request) {
   const body: QuantityBody = await req.json();

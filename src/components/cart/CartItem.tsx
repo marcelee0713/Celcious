@@ -3,7 +3,16 @@ import { CartPUTResponse } from "@/app/api/cart-item-data/route";
 import { Roboto } from "next/font/google";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import {
+  ChangeEventHandler,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { CheckedItemTypes } from "./CartMain";
+import { CartItemType } from "@/app/cart/[id]/page";
 
 const robotoBold = Roboto({
   subsets: ["latin"],
@@ -23,6 +32,11 @@ interface CartItemProps {
   product_price: number;
   quantity: number;
   stock: number;
+  price: number;
+  checkedItems: string[];
+  cart_items: CartItemType[];
+  setPrice: Dispatch<SetStateAction<number>>;
+  setCartItems: Dispatch<SetStateAction<CartItemType[]>>;
 }
 
 export const CartItem = ({
@@ -33,9 +47,22 @@ export const CartItem = ({
   product_price,
   quantity,
   stock,
+  price,
+  setPrice,
+  checkedItems,
+  cart_items,
+  setCartItems,
 }: CartItemProps) => {
   const getTotalPrice = (quantityPro: number): string => {
     return (product_price * quantityPro).toString();
+  };
+
+  const checkIfIdExist = (): boolean => {
+    let exist = false;
+    if (checkedItems.includes(cart_item_id)) {
+      exist = true;
+    }
+    return exist;
   };
 
   const [productStock, setStock] = useState(stock);
@@ -43,8 +70,34 @@ export const CartItem = ({
   const [totalPrice, setTotalPrice] = useState(getTotalPrice(amount));
   const [loading, setLoading] = useState(false);
   const [deleteLoading, setDelLoading] = useState(false);
+  const [checked, setChecked] = useState(checkIfIdExist());
 
-  const router = useRouter();
+  useEffect(() => {
+    setTotalPrice(getTotalPrice(amount));
+    if (checked) {
+      if (!checkedItems.includes(cart_item_id)) {
+        setChecked(false);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cart_items]);
+
+  const handleChecked = () => {
+    if (checked) {
+      setChecked(false);
+      const index = checkedItems.indexOf(cart_item_id);
+      checkedItems.splice(index, 1);
+      const totalProPrice = Number(totalPrice);
+      setPrice(price - totalProPrice);
+    } else {
+      setChecked(true);
+      checkedItems.push(cart_item_id);
+      const totalProPrice = Number(totalPrice);
+      setPrice(price + totalProPrice);
+    }
+
+    console.log(checkedItems);
+  };
 
   const decreaseAmount = async () => {
     if (amount !== 1) {
@@ -65,6 +118,9 @@ export const CartItem = ({
           setStock(body.stock);
           setAmount(body.quantity);
           setTotalPrice(getTotalPrice(body.quantity));
+          if (checked) {
+            setPrice(price - product_price);
+          }
           setLoading(false);
         });
     }
@@ -91,6 +147,9 @@ export const CartItem = ({
           setStock(body.stock);
           setAmount(body.quantity);
           setTotalPrice(getTotalPrice(body.quantity));
+          if (checked) {
+            setPrice(price + product_price);
+          }
           setLoading(false);
         });
     }
@@ -110,9 +169,26 @@ export const CartItem = ({
     })
       .then((res) => res.json())
       .then((val) => {
+        if (checked) {
+          setPrice(price - Number(totalPrice));
+          const index = checkedItems.indexOf(cart_item_id);
+          checkedItems.splice(index, 1);
+        }
         setLoading(false);
         setDelLoading(false);
-        router.refresh();
+        const itemIndex = cart_items.indexOf({
+          cart_item_id: cart_item_id,
+          image: image,
+          product_id: product_id,
+          product_name: product_name,
+          product_price: price,
+          quantity: quantity,
+          stock: stock,
+        });
+        const updatedCartItems = cart_items.filter(
+          (item) => item.cart_item_id !== cart_item_id
+        );
+        setCartItems(updatedCartItems);
       });
   };
 
@@ -125,6 +201,16 @@ export const CartItem = ({
             src={image}
             fill
             style={{ objectFit: "cover", borderRadius: 12 }}
+          />
+          <input
+            disabled={loading}
+            type="checkbox"
+            onChange={() => {
+              setChecked(!checked);
+              handleChecked();
+            }}
+            checked={checked}
+            className="z-20 absolute checked:bg-primary accent-primary scale-125 left-2 top-2"
           />
         </div>
         <div className="flex flex-col gap-1 justify-center">

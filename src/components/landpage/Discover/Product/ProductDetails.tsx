@@ -5,6 +5,7 @@ import StarRatingComponent from "react-star-rating-component";
 import { FaCartPlus, FaHeart } from "react-icons/fa";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const robotoBold = Roboto({
   subsets: ["latin"],
@@ -35,6 +36,7 @@ export const ProductDetails = ({
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [status, setStatus] = useState(false);
+  const router = useRouter();
 
   const decreaseAmount = () => {
     if (amount !== 1) {
@@ -46,7 +48,6 @@ export const ProductDetails = ({
       setAmount(amount + 1);
     }
   };
-
   const handleAddToCart = async () => {
     setLoading(true);
     await fetch("/api/product-data", {
@@ -72,11 +73,13 @@ export const ProductDetails = ({
       .then((val) => {
         setLoading(false);
         setSuccess(true);
+        router.refresh();
       })
       .catch((e) => {
         console.log(e);
       });
   };
+
   return (
     <div className="flex-1 flex flex-col gap-5">
       <div className={`${robotoBold.className} flex flex-col gap-2 `}>
