@@ -2,6 +2,7 @@
 import { CartPUTResponse } from "@/app/api/cart-item-data/route";
 import { Roboto } from "next/font/google";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const robotoBold = Roboto({
@@ -37,9 +38,13 @@ export const CartItem = ({
     return (product_price * quantityPro).toString();
   };
 
+  const [productStock, setStock] = useState(stock);
   const [amount, setAmount] = useState(quantity);
   const [totalPrice, setTotalPrice] = useState(getTotalPrice(amount));
   const [loading, setLoading] = useState(false);
+  const [deleteLoading, setDelLoading] = useState(false);
+
+  const router = useRouter();
 
   const decreaseAmount = async () => {
     if (amount !== 1) {
@@ -57,16 +62,18 @@ export const CartItem = ({
         .then((res) => res.json())
         .then((val) => {
           const body: CartPUTResponse = val;
+          setStock(body.stock);
           setAmount(body.quantity);
           setTotalPrice(getTotalPrice(body.quantity));
           setLoading(false);
         });
     }
   };
+
   const increaseAmount = async () => {
     // Only work when the stock and amount is not equal.
     // TODO: Finish the Fetch Method
-    if (stock !== amount) {
+    if (productStock !== amount) {
       setLoading(true);
       await fetch("/api/cart-item-data", {
         body: JSON.stringify({
@@ -81,11 +88,32 @@ export const CartItem = ({
         .then((res) => res.json())
         .then((val) => {
           const body: CartPUTResponse = val;
+          setStock(body.stock);
           setAmount(body.quantity);
           setTotalPrice(getTotalPrice(body.quantity));
           setLoading(false);
         });
     }
+  };
+
+  const deleteCartItem = async () => {
+    setLoading(true);
+    setDelLoading(true);
+    await fetch("/api/cart-item-data", {
+      body: JSON.stringify({
+        cart_item_id: cart_item_id,
+      }),
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((val) => {
+        setLoading(false);
+        setDelLoading(false);
+        router.refresh();
+      });
   };
 
   return (
@@ -104,16 +132,16 @@ export const CartItem = ({
             {product_name}
           </div>
           <div className={`${robotoLight.className}`}>PHP {product_price}</div>
-          <div className={`${robotoLight.className}`}>Stock: {stock}</div>
+          <div className={`${robotoLight.className}`}>
+            Stock: {productStock}
+          </div>
         </div>
       </td>
       <td className="border border-collapse border-transparent">
         <div className="flex gap-2 items-center justify-center">
           <button
             disabled={loading}
-            onClick={() => {
-              decreaseAmount();
-            }}
+            onClick={() => decreaseAmount()}
             className="px-5 py-2 bg-primary text-secondary rounded-lg shadow-lg transition-transform hover:-translate-y-1 disabled:cursor-not-allowed"
           >
             -
@@ -121,9 +149,7 @@ export const CartItem = ({
           <div className="font-bold">{amount}</div>
           <button
             disabled={loading}
-            onClick={() => {
-              increaseAmount();
-            }}
+            onClick={() => increaseAmount()}
             className="px-5 py-2 bg-primary text-secondary rounded-lg shadow-lg transition-transform hover:-translate-y-1 disabled:cursor-not-allowed"
           >
             +
@@ -133,8 +159,15 @@ export const CartItem = ({
       <td className="text-center border border-collapse border-transparent">
         PHP {totalPrice}
       </td>
-      <td className="text-center border border-collapse border-transparent">
-        Delete
+      <td className="border border-collapse border-transparent">
+        <div className="flex items-center justify-center">
+          <div
+            onClick={() => deleteCartItem()}
+            className="cursor-pointer hover:underline"
+          >
+            Delete
+          </div>
+        </div>
       </td>
     </tr>
   );

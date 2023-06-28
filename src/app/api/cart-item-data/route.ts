@@ -1,14 +1,20 @@
 import { prisma } from "@/db/prisma";
-import { NextResponse } from "next/server";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 
 type QuantityBody = {
   mode: string;
   cart_item_id: string;
 };
+
+type POSTRequestBody = {
+  cart_item_id: string;
+};
+
 export type CartPUTResponse = {
   stock: number;
   quantity: number;
 };
+
 export async function PUT(req: Request) {
   const body: QuantityBody = await req.json();
 
@@ -78,5 +84,27 @@ export async function PUT(req: Request) {
     }
   } catch (e) {
     return new Response("PUT Method Error in cart-item-data", { status: 500 });
+  }
+}
+
+export async function POST(req: Request) {
+  const body: POSTRequestBody = await req.json();
+
+  try {
+    const res = await prisma.cartItem.delete({
+      where: {
+        id: body.cart_item_id,
+      },
+    });
+
+    return new Response(JSON.stringify(res), { status: 200 });
+  } catch (e) {
+    if (e instanceof PrismaClientKnownRequestError) {
+      return new Response(
+        "POST Method Error in cart-item-data following error: " + e.message,
+        { status: 400 }
+      );
+    }
+    return new Response("POST Method Error in cart-item-data", { status: 500 });
   }
 }
