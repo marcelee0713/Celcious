@@ -34,9 +34,7 @@ interface CartItemProps {
   stock: number;
   price: number;
   checkedItems: string[];
-  cart_items: CartItemType[];
   setPrice: Dispatch<SetStateAction<number>>;
-  setCartItems: Dispatch<SetStateAction<CartItemType[]>>;
 }
 
 export const CartItem = ({
@@ -50,8 +48,6 @@ export const CartItem = ({
   price,
   setPrice,
   checkedItems,
-  cart_items,
-  setCartItems,
 }: CartItemProps) => {
   const getTotalPrice = (quantityPro: number): string => {
     return (product_price * quantityPro).toString();
@@ -64,7 +60,7 @@ export const CartItem = ({
     }
     return exist;
   };
-
+  const router = useRouter();
   const [productStock, setStock] = useState(stock);
   const [amount, setAmount] = useState(quantity);
   const [totalPrice, setTotalPrice] = useState(getTotalPrice(amount));
@@ -80,7 +76,7 @@ export const CartItem = ({
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cart_items]);
+  }, [checkedItems]);
 
   const handleChecked = () => {
     if (checked) {
@@ -176,19 +172,7 @@ export const CartItem = ({
         }
         setLoading(false);
         setDelLoading(false);
-        const itemIndex = cart_items.indexOf({
-          cart_item_id: cart_item_id,
-          image: image,
-          product_id: product_id,
-          product_name: product_name,
-          product_price: price,
-          quantity: quantity,
-          stock: stock,
-        });
-        const updatedCartItems = cart_items.filter(
-          (item) => item.cart_item_id !== cart_item_id
-        );
-        setCartItems(updatedCartItems);
+        router.refresh();
       });
   };
 

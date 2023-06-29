@@ -15,7 +15,6 @@ export type CheckedItemTypes = {
 export const CartMain = ({ data }: CartMainProps) => {
   const [price, setPrice] = useState(0);
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
-  const [cartItems, setCartItems] = useState<CartItemType[]>(data);
   // What I know
   // if the cartId does not exist in the checkedItems
   // Their Checkboxes will be false
@@ -23,7 +22,7 @@ export const CartMain = ({ data }: CartMainProps) => {
   return (
     <main className="flex flex-col relative">
       <div>TOTAL: {price}</div>
-      <table className=" table-auto border border-separate border-transparent border-spacing-y-5 p-5">
+      <table className="table-auto border border-separate border-transparent border-spacing-y-5 p-5">
         <thead>
           <tr>
             <th className="text-start border border-collapse border-transparent">
@@ -41,7 +40,8 @@ export const CartMain = ({ data }: CartMainProps) => {
           </tr>
         </thead>
         <tbody>
-          {cartItems.map((val, index) => (
+          {data.map((val) => (
+            // eslint-disable-next-line react/jsx-key
             <CartItem
               image={val.image}
               cart_item_id={val.cart_item_id}
@@ -52,10 +52,8 @@ export const CartMain = ({ data }: CartMainProps) => {
               stock={val.stock}
               price={price}
               setPrice={setPrice}
-              key={index}
               checkedItems={checkedItems}
-              cart_items={cartItems}
-              setCartItems={setCartItems}
+              key={val.cart_item_id}
             />
           ))}
         </tbody>
