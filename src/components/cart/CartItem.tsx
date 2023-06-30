@@ -4,6 +4,7 @@ import { Roboto } from "next/font/google";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { ItemHolder } from "./CartMain";
 
 const robotoBold = Roboto({
   subsets: ["latin"],
@@ -23,10 +24,8 @@ interface CartItemProps {
   product_price: number;
   quantity: number;
   stock: number;
-  price: number;
-  checkedItems: string[];
-  setPrice: Dispatch<SetStateAction<number>>;
-  setCheckedItems: Dispatch<SetStateAction<string[]>>;
+  items: ItemHolder[];
+  setItems: Dispatch<SetStateAction<ItemHolder[]>>;
 }
 
 export const CartItem = ({
@@ -37,52 +36,75 @@ export const CartItem = ({
   product_price,
   quantity,
   stock,
-  price,
-  setPrice,
-  setCheckedItems,
-  checkedItems,
+  items,
+  setItems,
 }: CartItemProps) => {
-  const getTotalPrice = (quantityPro: number): string => {
-    return (product_price * quantityPro).toString();
+  const initalTotalPrice = (): string => {
+    let totalPrice = 0;
+    items.forEach((val) => {
+      if (val.id === cart_item_id) {
+        totalPrice = val.totalPrice;
+      }
+    });
+    return totalPrice.toString();
   };
 
-  const checkIfIdExist = (): boolean => {
-    let exist = false;
-    if (checkedItems.includes(cart_item_id)) {
-      exist = true;
-    }
-    return exist;
+  const getTotalPrice = (): number => {
+    let totalPrice = 0;
+    items.forEach((val) => {
+      if (val.id === cart_item_id) {
+        totalPrice = val.totalPrice;
+      }
+    });
+    return totalPrice;
   };
+
+  const updateTotalPrice = (totalPrice: number) => {
+    let updatedTotalPrice = items.map((item) => {
+      if (item.id === cart_item_id) {
+        return { ...item, totalPrice: totalPrice };
+      }
+      return item;
+    });
+    setItems(updatedTotalPrice);
+    setTotalPrice(totalPrice.toString());
+  };
+
+  const updateChecked = (checked: boolean) => {
+    let updatedChecked = items.map((item) => {
+      if (item.id === cart_item_id) {
+        return { ...item, checked: checked };
+      }
+      return item;
+    });
+    setChecked(checked);
+    setItems(updatedChecked);
+  };
+
+  const getUpdatedCheck = (): boolean => {
+    let updatedCheck = false;
+    items.forEach((item) => {
+      if (item.id === cart_item_id) {
+        updatedCheck = item.checked;
+      }
+    });
+
+    return updatedCheck;
+  };
+
   const router = useRouter();
   const [productStock, setStock] = useState(stock);
   const [amount, setAmount] = useState(quantity);
-  const [totalPrice, setTotalPrice] = useState(getTotalPrice(amount));
+  const [totalPrice, setTotalPrice] = useState(initalTotalPrice());
   const [loading, setLoading] = useState(false);
   const [deleteLoading, setDelLoading] = useState(false);
-  const [checked, setChecked] = useState(checkIfIdExist());
-
-  useEffect(() => {
-    if (checkedItems.includes(cart_item_id)) {
-      setChecked(true);
-    } else {
-      setChecked(false);
-    }
-  }, [checkedItems]);
+  const [checked, setChecked] = useState(false);
 
   const handleChecked = () => {
     if (checked) {
-      const totalProPrice = Number(totalPrice);
-      setPrice(price - totalProPrice);
-      const newItems: string[] = checkedItems.filter(
-        (items) => items !== cart_item_id
-      );
-      setCheckedItems(newItems);
+      updateChecked(false);
     } else {
-      const totalProPrice = Number(totalPrice);
-      setPrice(price + totalProPrice);
-      setCheckedItems((prev) => {
-        return [...prev, cart_item_id];
-      });
+      updateChecked(true);
     }
   };
 
@@ -104,10 +126,8 @@ export const CartItem = ({
           const body: CartPUTResponse = val;
           setStock(body.stock);
           setAmount(body.quantity);
-          setTotalPrice(getTotalPrice(body.quantity));
-          if (checked) {
-            setPrice(price - product_price);
-          }
+          const decremented = getTotalPrice() - product_price;
+          updateTotalPrice(decremented);
           setLoading(false);
         });
     }
@@ -133,10 +153,8 @@ export const CartItem = ({
           const body: CartPUTResponse = val;
           setStock(body.stock);
           setAmount(body.quantity);
-          setTotalPrice(getTotalPrice(body.quantity));
-          if (checked) {
-            setPrice(price + product_price);
-          }
+          const incremented = getTotalPrice() + product_price;
+          updateTotalPrice(incremented);
           setLoading(false);
         });
     }
@@ -156,16 +174,18 @@ export const CartItem = ({
     })
       .then((res) => res.json())
       .then((val) => {
-        if (checked) {
-          setPrice(price - Number(totalPrice));
-          const index = checkedItems.indexOf(cart_item_id);
-          checkedItems.splice(index, 1);
-        }
+        let updatedList = items.filter((items) => items.id !== cart_item_id);
+        setItems(updatedList);
         setLoading(false);
         setDelLoading(false);
         router.refresh();
       });
   };
+
+  useEffect(() => {
+    setChecked(getUpdatedCheck());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items]);
 
   return (
     <tr className="bg-accent shadow-lg">
@@ -180,10 +200,7 @@ export const CartItem = ({
           <input
             disabled={loading}
             type="checkbox"
-            onChange={() => {
-              setChecked(!checked);
-              handleChecked();
-            }}
+            onChange={handleChecked}
             checked={checked}
             className="z-20 absolute checked:bg-primary accent-primary scale-125 left-2 top-2"
           />
