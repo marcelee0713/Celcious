@@ -2,15 +2,22 @@
 import { CartItemType } from "@/app/cart/[id]/page";
 import React, { useEffect, useState } from "react";
 import { CartItem } from "./CartItem";
+import { Roboto } from "next/font/google";
 
 interface CartMainProps {
   data: CartItemType[];
 }
 
-export type CheckedItemTypes = {
+export type CartPriceHolder = {
   id: string;
-  isChecked: boolean;
+  price: number;
+  checked: boolean;
 };
+
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: "700",
+});
 
 export const CartMain = ({ data }: CartMainProps) => {
   const [price, setPrice] = useState(0);
@@ -19,10 +26,21 @@ export const CartMain = ({ data }: CartMainProps) => {
   // if the cartId does not exist in the checkedItems
   // Their Checkboxes will be false
 
+  const addAllToList = () => {
+    const emptyArray: string[] = [];
+    const allArr: string[] = [];
+    setCheckedItems(emptyArray);
+    data.forEach((val) => {
+      allArr.push(val.cart_item_id);
+    });
+
+    setCheckedItems(allArr);
+  };
+
   return (
     <main className="flex flex-col relative">
-      <div>TOTAL: {price}</div>
-      <table className="table-auto border border-separate border-transparent border-spacing-y-5 p-5">
+      <div>{checkedItems.length}</div>
+      <table className="table-auto border border-separate border-transparent border-spacing-y-5 p-5 mb-20">
         <thead>
           <tr>
             <th className="text-start border border-collapse border-transparent">
@@ -53,11 +71,41 @@ export const CartMain = ({ data }: CartMainProps) => {
               price={price}
               setPrice={setPrice}
               checkedItems={checkedItems}
+              setCheckedItems={setCheckedItems}
               key={val.cart_item_id}
             />
           ))}
         </tbody>
       </table>
+      <div className="flex items-center justify-between h-20 bg-primary fixed bottom-0 w-full p-2">
+        <div className={`${roboto.className} flex gap-2`}>
+          <button
+            onClick={addAllToList}
+            className="bg-secondary p-2 rounded-lg h-10 shadow-lg"
+          >
+            Select All
+          </button>
+          <button
+            onClick={() => {
+              const emptyArray: string[] = [];
+              setCheckedItems(emptyArray);
+              setPrice(0);
+            }}
+            className="bg-secondary p-2 rounded-lg h-10 shadow-lg"
+          >
+            Unselect All
+          </button>
+        </div>
+
+        <div className={`${roboto.className} flex gap-5 items-center`}>
+          <div className="text-xl text-secondary ">
+            Total Price: PHP {price}
+          </div>
+          <button className="bg-secondary p-2 rounded-lg h-10 shadow-lg">
+            Checkout
+          </button>
+        </div>
+      </div>
     </main>
   );
 };

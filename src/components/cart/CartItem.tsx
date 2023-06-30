@@ -3,16 +3,7 @@ import { CartPUTResponse } from "@/app/api/cart-item-data/route";
 import { Roboto } from "next/font/google";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import {
-  ChangeEventHandler,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import { CheckedItemTypes } from "./CartMain";
-import { CartItemType } from "@/app/cart/[id]/page";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 const robotoBold = Roboto({
   subsets: ["latin"],
@@ -35,6 +26,7 @@ interface CartItemProps {
   price: number;
   checkedItems: string[];
   setPrice: Dispatch<SetStateAction<number>>;
+  setCheckedItems: Dispatch<SetStateAction<string[]>>;
 }
 
 export const CartItem = ({
@@ -47,6 +39,7 @@ export const CartItem = ({
   stock,
   price,
   setPrice,
+  setCheckedItems,
   checkedItems,
 }: CartItemProps) => {
   const getTotalPrice = (quantityPro: number): string => {
@@ -69,30 +62,28 @@ export const CartItem = ({
   const [checked, setChecked] = useState(checkIfIdExist());
 
   useEffect(() => {
-    setTotalPrice(getTotalPrice(amount));
-    if (checked) {
-      if (!checkedItems.includes(cart_item_id)) {
-        setChecked(false);
-      }
+    if (checkedItems.includes(cart_item_id)) {
+      setChecked(true);
+    } else {
+      setChecked(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkedItems]);
 
   const handleChecked = () => {
     if (checked) {
-      setChecked(false);
-      const index = checkedItems.indexOf(cart_item_id);
-      checkedItems.splice(index, 1);
       const totalProPrice = Number(totalPrice);
       setPrice(price - totalProPrice);
+      const newItems: string[] = checkedItems.filter(
+        (items) => items !== cart_item_id
+      );
+      setCheckedItems(newItems);
     } else {
-      setChecked(true);
-      checkedItems.push(cart_item_id);
       const totalProPrice = Number(totalPrice);
       setPrice(price + totalProPrice);
+      setCheckedItems((prev) => {
+        return [...prev, cart_item_id];
+      });
     }
-
-    console.log(checkedItems);
   };
 
   const decreaseAmount = async () => {
