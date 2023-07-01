@@ -48,7 +48,29 @@ export async function POST(req: Request) {
     },
   });
 
+  const product = await prisma.product.findUnique({
+    where: {
+      id: body.product_id,
+    },
+  });
+
+  if (product) {
+    if (!(body.amount <= product?.stock)) {
+      return new Response(
+        "Sorry, please reduce the quantity. Seems like the stock have changed when you added this to your cart!",
+        { status: 404 }
+      );
+    }
+  } else {
+    return new Response("Error seems like the product doesn't exist anymore.", {
+      status: 400,
+    });
+  }
+
   // If cart is empty or null. Create one and add the product
+  // After doing this, it should also check if the "amount" of the item to added to cart.
+  // Is either less than or equal to the "stock" of the Product.
+  // Then I guess is successful?
   if (!cart) {
     const newCart = await prisma.cart.create({
       data: {
@@ -90,8 +112,6 @@ export async function POST(req: Request) {
       );
     }
   } else {
-    console.log("Cart ID: " + cart.id);
-    console.log("PRODUCT ID: " + body.product_id);
     try {
       const alreadyExist = await prisma.cartItem.findFirst({
         where: {

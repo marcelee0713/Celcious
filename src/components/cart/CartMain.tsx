@@ -24,11 +24,13 @@ export const CartMain = ({ data }: CartMainProps) => {
     const arr: ItemHolder[] = [];
     data.forEach((val) => {
       const totalPrice = val.product_price * val.quantity;
-      arr.push({
-        id: val.cart_item_id,
-        totalPrice: totalPrice,
-        checked: false,
-      });
+      if (val.stock !== 0) {
+        arr.push({
+          id: val.cart_item_id,
+          totalPrice: totalPrice,
+          checked: false,
+        });
+      }
     });
 
     return arr;
@@ -107,7 +109,7 @@ export const CartMain = ({ data }: CartMainProps) => {
           ))}
         </tbody>
       </table>
-      <div className="flex items-center justify-between h-20 bg-primary fixed bottom-0 w-full p-2">
+      <div className="flex items-center justify-between h-20 bg-primary fixed bottom-0 w-full p-2 z-20">
         <div className={`${roboto.className} flex gap-2`}>
           <button
             onClick={CheckAllToList}

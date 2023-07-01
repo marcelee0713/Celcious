@@ -5,6 +5,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { ItemHolder } from "./CartMain";
+import { POSTQuantityResponse } from "@/app/api/cart-item-data/cart-validate-quantity/route";
+import { useSession } from "next-auth/react";
 
 const robotoBold = Roboto({
   subsets: ["latin"],
@@ -39,6 +41,32 @@ export const CartItem = ({
   items,
   setItems,
 }: CartItemProps) => {
+  const { data: session } = useSession();
+  const initialAmount = async () => {
+    try {
+      const obj = await fetch("/api/cart-item-data/cart-validate-quantity", {
+        body: JSON.stringify({
+          cart_item_id: cart_item_id,
+          product_id: product_id,
+          quantity: quantity,
+        }),
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((val) => {
+          const data: POSTQuantityResponse = val;
+          return data;
+        });
+
+      setAmount(obj.quantity);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const initalTotalPrice = (): string => {
     let totalPrice = 0;
     items.forEach((val) => {
@@ -187,6 +215,11 @@ export const CartItem = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items]);
 
+  useEffect(() => {
+    initialAmount();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <tr className="bg-accent shadow-lg">
       <td className="flex gap-4 border border-collapse border-transparent p-2">
@@ -197,13 +230,15 @@ export const CartItem = ({
             fill
             style={{ objectFit: "cover", borderRadius: 12 }}
           />
-          <input
-            disabled={loading}
-            type="checkbox"
-            onChange={handleChecked}
-            checked={checked}
-            className="z-20 absolute checked:bg-primary accent-primary scale-125 left-2 top-2"
-          />
+          {stock !== 0 && (
+            <input
+              disabled={loading}
+              type="checkbox"
+              onChange={handleChecked}
+              checked={checked}
+              className="z-20 absolute checked:bg-primary accent-primary scale-125 left-2 top-2"
+            />
+          )}
         </div>
         <div className="flex flex-col gap-1 justify-center">
           <div className={`${robotoBold.className} text-lg`}>
@@ -216,23 +251,31 @@ export const CartItem = ({
         </div>
       </td>
       <td className="border border-collapse border-transparent">
-        <div className="flex gap-2 items-center justify-center">
-          <button
-            disabled={loading}
-            onClick={() => decreaseAmount()}
-            className="px-5 py-2 bg-primary text-secondary rounded-lg shadow-lg transition-transform hover:-translate-y-1 disabled:cursor-not-allowed"
+        {stock > 0 ? (
+          <div className="flex gap-2 items-center justify-center">
+            <button
+              disabled={loading}
+              onClick={() => decreaseAmount()}
+              className="px-5 py-2 bg-primary text-secondary rounded-lg shadow-lg transition-transform hover:-translate-y-1 disabled:cursor-not-allowed"
+            >
+              -
+            </button>
+            <div className="font-bold">{amount}</div>
+            <button
+              disabled={loading}
+              onClick={() => increaseAmount()}
+              className="px-5 py-2 bg-primary text-secondary rounded-lg shadow-lg transition-transform hover:-translate-y-1 disabled:cursor-not-allowed"
+            >
+              +
+            </button>
+          </div>
+        ) : (
+          <div
+            className={`${robotoBold.className} flex items-center justify-center`}
           >
-            -
-          </button>
-          <div className="font-bold">{amount}</div>
-          <button
-            disabled={loading}
-            onClick={() => increaseAmount()}
-            className="px-5 py-2 bg-primary text-secondary rounded-lg shadow-lg transition-transform hover:-translate-y-1 disabled:cursor-not-allowed"
-          >
-            +
-          </button>
-        </div>
+            Currently out of stock!
+          </div>
+        )}
       </td>
       <td className="text-center border border-collapse border-transparent">
         PHP {totalPrice}

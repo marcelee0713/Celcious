@@ -66,7 +66,8 @@ export const ProductDetails = ({
           return res;
         } else {
           setLoading(false);
-          setError("Please try again later!");
+          const errorText = await res.text();
+          setError(`${errorText}`);
           throw new Error(res.statusText);
         }
       })
@@ -100,21 +101,24 @@ export const ProductDetails = ({
       </div>
       <div className="flex gap-2 items-center">
         <button
+          disabled={stock === 0}
           onClick={decreaseAmount}
-          className="px-5 py-2 bg-primary text-secondary rounded-lg shadow-lg transition-transform hover:-translate-y-1"
+          className="px-5 py-2 bg-primary text-secondary rounded-lg shadow-lg transition-transform hover:-translate-y-1 disabled:cursor-not-allowed"
         >
           -
         </button>
         <div className="font-bold">{amount}</div>
         <button
+          disabled={stock === 0}
           onClick={increaseAmount}
-          className="px-5 py-2 bg-primary text-secondary rounded-lg shadow-lg transition-transform hover:-translate-y-1"
+          className="px-5 py-2 bg-primary text-secondary rounded-lg shadow-lg transition-transform hover:-translate-y-1 disabled:cursor-not-allowed"
         >
           +
         </button>
       </div>
       <div className="flex gap-2">
-        <div
+        <button
+          disabled={stock === 0}
           onClick={() => {
             setStatus(true);
             setError("");
@@ -122,11 +126,11 @@ export const ProductDetails = ({
             setLoading(false);
             handleAddToCart();
           }}
-          className="flex px-3 py-5 bg-primary gap-2 rounded-lg shadow-lg text-secondary transition-transform hover:-translate-y-1 cursor-pointer"
+          className="flex px-3 py-5 bg-primary gap-2 rounded-lg shadow-lg text-secondary transition-transform hover:-translate-y-1 cursor-pointer disabled:cursor-not-allowed"
         >
           <FaCartPlus size={25} />
           <div className={`${robotoBold.className}`}>Add to Cart</div>
-        </div>
+        </button>
         <div className="flex px-3 py-5 bg-primary gap-2 rounded-lg shadow-lg text-secondary transition-transform hover:-translate-y-1 cursor-pointer">
           <FaHeart size={25} />
           <div className={`${robotoBold.className}`}>Add to WishList</div>
@@ -135,7 +139,7 @@ export const ProductDetails = ({
 
       {status && (
         <div
-          className={`flex items-center justify-center h-12 w-72 bg-secondary shadow-lg rounded-lg border ${
+          className={`flex items-center justify-center h-20  bg-secondary shadow-lg rounded-lg border p-3 ${
             loading && "border-primary"
           }  ${error && "border-red-500"}  ${success && "border-green-500"}`}
         >
