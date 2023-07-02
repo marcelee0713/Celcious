@@ -6,6 +6,9 @@ import { Adapter } from "next-auth/adapters";
 import { UserWithoutPass } from "@/types/user";
 import jwt from "jsonwebtoken";
 import { NextAuthOptions } from "next-auth";
+import { cookies } from "next/headers";
+
+const secret = process.env.NEXTAUTH_SECRET;
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -64,6 +67,20 @@ export const authOptions: NextAuthOptions = {
         }
 
         if (user) {
+          const token = jwt.sign(
+            {
+              id: user.id,
+            },
+            secret as string,
+            { expiresIn: "30d" }
+          );
+          cookies().set({
+            name: "token",
+            value: token,
+            httpOnly: true,
+            maxAge: 60 * 60 * 24 * 30,
+            path: "/",
+          });
           return user;
         } else {
           throw new Error("Please check your credentials!");
@@ -103,6 +120,17 @@ export const authOptions: NextAuthOptions = {
   },
   session: {
     strategy: "jwt",
+  },
+  events: {
+    signOut() {
+      cookies().set({
+        name: "token",
+        value: "",
+        httpOnly: true,
+        expires: 0,
+        path: "/",
+      });
+    },
   },
 };
 
