@@ -5,8 +5,9 @@ import { prisma } from "@/db/prisma";
 import { Adapter } from "next-auth/adapters";
 import { UserWithoutPass } from "@/types/user";
 import jwt from "jsonwebtoken";
+import { NextAuthOptions } from "next-auth";
 
-const handler = NextAuth({
+export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   // adapter: PrismaAdapter(prisma), Uncomment this when you are using Google, Facebook, and Discord Providers
   providers: [
@@ -103,6 +104,8 @@ const handler = NextAuth({
   session: {
     strategy: "jwt",
   },
-});
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

@@ -42,6 +42,10 @@ export async function GET(request: Request) {
 export async function POST(req: Request) {
   const body: RequestPOSTBody = await req.json();
 
+  if (!body.user_id || body.user_id === "") {
+    return new Response("Please try logging in!", { status: 404 });
+  }
+
   const cart = await prisma.cart.findUnique({
     where: {
       cart_id: body.user_id,
@@ -175,10 +179,7 @@ export async function POST(req: Request) {
         );
       }
       console.log(e);
-      return NextResponse.json(
-        { error: "Failed adding to cart!" },
-        { status: 500 }
-      );
+      return NextResponse.json("Failed adding to cart", { status: 500 });
     }
   }
 }

@@ -4,7 +4,7 @@ import { useState } from "react";
 import StarRatingComponent from "react-star-rating-component";
 import { FaCartPlus, FaHeart } from "react-icons/fa";
 import Image from "next/image";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 const robotoBold = Roboto({
@@ -50,6 +50,10 @@ export const ProductDetails = ({
   };
   const handleAddToCart = async () => {
     setLoading(true);
+    if (!session) {
+      signIn();
+      return;
+    }
     await fetch("/api/product-data", {
       method: "POST",
       body: JSON.stringify({

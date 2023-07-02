@@ -53,6 +53,7 @@ export default function SignInPage() {
     setEmailSuccess(false);
     setAuthError("");
     const token = params.get("token");
+    const callbackURL = params.get("callbackUrl") || "/";
     await signIn("credentials", {
       username: data.email,
       password: data.password,
@@ -63,7 +64,7 @@ export default function SignInPage() {
         if (val?.error) {
           setAuthError(val.error);
         } else if (val?.ok) {
-          router.replace("/");
+          router.replace(callbackURL);
         }
         setLoading(false);
       })

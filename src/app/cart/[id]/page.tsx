@@ -1,8 +1,11 @@
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { NavBar } from "@/components/NavBar";
 import { CartItem } from "@/components/cart/CartItem";
 import { CartMain } from "@/components/cart/CartMain";
 import { prisma } from "@/db/prisma";
+import { getServerSession } from "next-auth";
 import { Roboto } from "next/font/google";
+import { notFound, redirect } from "next/navigation";
 import React, { useState } from "react";
 
 const roboto = Roboto({
@@ -34,6 +37,14 @@ export default async function CartPage({ params: { id } }: PageParams) {
   // 2. Make a middleware for the ProductBox, Profile, and this page.
   //  - When they are not logged in.
   //  - When their "session user id" is not the same as the one they're logged in
+
+  const session = await getServerSession(authOptions);
+
+  if (session) {
+    if (session.user.id !== id) {
+      notFound();
+    }
+  }
 
   const cart = await prisma.cart.findUnique({
     where: {
