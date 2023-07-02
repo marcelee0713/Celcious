@@ -41,7 +41,6 @@ export const CartItem = ({
   items,
   setItems,
 }: CartItemProps) => {
-  const { data: session } = useSession();
   const initialAmount = async () => {
     try {
       const obj = await fetch("/api/cart-item-data/cart-validate-quantity", {
@@ -62,6 +61,8 @@ export const CartItem = ({
         });
 
       setAmount(obj.quantity);
+      const price = product_price * obj.quantity;
+      updateTotalPrice(price);
     } catch (e) {
       console.log(e);
     }

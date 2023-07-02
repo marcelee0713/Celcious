@@ -44,13 +44,30 @@ export async function POST(req: Request) {
 
       return new Response(JSON.stringify(obj), { status: 200 });
     }
+
     return new Response("Seems like something is wrong updating the quantity", {
       status: 400,
     });
   }
 
+  let stock = 1;
+
+  stock = product.stock !== 0 && body.quantity === 0 ? 1 : body.quantity;
+
+  const updatedQuantity = await prisma.cartItem.update({
+    where: {
+      id: body.cart_item_id,
+    },
+    data: {
+      quantity: {
+        set: stock,
+      },
+    },
+  });
+
   const obj: POSTQuantityResponse = {
-    quantity: body.quantity,
+    quantity: updatedQuantity.quantity,
   };
+
   return new Response(JSON.stringify(obj), { status: 200 });
 }

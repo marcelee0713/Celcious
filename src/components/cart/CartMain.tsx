@@ -3,6 +3,7 @@ import { CartItemType } from "@/app/cart/[id]/page";
 import React, { useEffect, useState } from "react";
 import { CartItem } from "./CartItem";
 import { Roboto } from "next/font/google";
+import { useRouter } from "next/navigation";
 
 interface CartMainProps {
   data: CartItemType[];
@@ -39,6 +40,7 @@ export const CartMain = ({ data }: CartMainProps) => {
 
   const CheckAllToList = () => {
     const checkedAll = items.map((item) => {
+      console.log(item.totalPrice);
       return { ...item, checked: true };
     });
     setItems(checkedAll);
@@ -72,6 +74,12 @@ export const CartMain = ({ data }: CartMainProps) => {
 
     return [];
   };
+
+  const router = useRouter();
+
+  useEffect(() => {
+    router.refresh();
+  }, [router]);
 
   return (
     <main className="flex flex-col relative">
