@@ -38,7 +38,7 @@ export const ProductBox: React.FC<ProductProps> = ({
       </div>
       <Link
         href={`/products/${id}`}
-        className="flex flex-col h-productBoxHeight w-productBoxWidth border border-primary rounded-lg shadow-lg transition-transform hover:-translate-y-1"
+        className="flex flex-col h-productBoxHeight border border-primary rounded-lg shadow-lg transition-transform hover:-translate-y-1"
       >
         <div className="relative flex-1">
           <Image

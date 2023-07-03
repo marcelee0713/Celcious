@@ -23,7 +23,7 @@ export const NavBar = () => {
   const router = useRouter();
 
   return (
-    <div className="flex justify-between h-navPageHeight items-center px-5 py-2 bg-primary text-secondary shadow-md">
+    <div className="flex justify-between h-navPageHeight items-center px-5 py-2 bg-primary text-secondary shadow-md z-30 fixed w-full">
       <div className="flex gap-5">
         <Link
           href={"/"}

@@ -51,6 +51,7 @@ module.exports = {
         navPageHeight: "60px",
         productBoxHeight: "500px",
         cartItemPicHeight: "200px",
+        mainSectionHeight: "400px",
       },
 
       maxWidth: {
@@ -58,7 +59,7 @@ module.exports = {
       },
 
       gridTemplateColumns: {
-        myGridTemplate: "repeat(auto-fit, minmax(300px, 300px))",
+        myGridTemplate: "repeat(auto-fit, minmax(300px, 1fr))",
       },
     },
   },

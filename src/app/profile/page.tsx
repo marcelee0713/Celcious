@@ -296,7 +296,7 @@ export default function Home() {
   return (
     <>
       <NavBar />
-      <main className="flex items-center justify-center pt-navPageHeight w-full h-full -mt-navPageMargin">
+      <main className="flex items-center justify-center pt-navPageHeight w-full h-full">
         {isLoading && (
           <div className="flex flex-col gap-5">
             <div className="w-full h-full flex justify-center items-center gap-5 ">
