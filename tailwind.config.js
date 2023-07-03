@@ -60,6 +60,7 @@ module.exports = {
 
       gridTemplateColumns: {
         myGridTemplate: "repeat(auto-fit, minmax(300px, 1fr))",
+        categoryGrid: "repeat(auto-fit, minmax(125px, 1fr))",
       },
     },
   },

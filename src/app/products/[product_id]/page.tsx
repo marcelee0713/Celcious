@@ -30,8 +30,8 @@ const Product = async ({ params: { product_id } }: PageProps) => {
   return (
     <>
       <NavBar />
-      <main className="flex flex-col px-5 pb-5 gap-5 pt-navPageHeight mt-5">
-        <div className="flex gap-5 items-center">
+      <main className="flex flex-col px-5 pb-5 gap-5 pt-navPageHeight">
+        <div className="flex gap-5 items-center mt-5">
           <div className="relative w-viewProductBoxWidth h-productBoxHeight">
             <Image
               src={product?.product_image as string}
