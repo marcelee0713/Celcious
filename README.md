@@ -35,3 +35,15 @@ Progress maybe slow but I am trying to do my best, I learned a lot especially th
 I also struggle sometimes with keeping up. But I don't want to be comfortable, and I will never stop learning.
 
 Thank you, for this challenging journey.
+
+## UPDATE
+
+July 4, 2023
+
+I have done a lot of stuff in this, especially with the add to cart functionality and <b>normalization of the database tables</b> and <b>middleware</b>.
+
+But I might not be that active on this repository, and now for this <b>life update</b>.
+
+I have to learn Unity. Even though I hate it, I have no other choice but to do a project for 10 months just for the <b>Capstone Project I & II</b>.
+
+I'll try as much as I can to at least make a commit on this project. Because I really need to show this off on my <b>Portfolio</b>.
